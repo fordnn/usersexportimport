@@ -1,0 +1,10 @@
+D:\WORK\Projects\SalarO\ImportUsers\ImportUsers_\ImportUsers_\bin\forDNN.Modules.ImportUsers_.dll
+D:\WORK\Projects\SalarO\ImportUsers\ImportUsers_\ImportUsers_\bin\forDNN.Modules.ImportUsers_.pdb
+D:\WORK\Projects\SalarO\ImportUsers\ImportUsers_\ImportUsers_\obj\Debug\ResolveAssemblyReference.cache
+D:\WORK\Projects\SalarO\ImportUsers\ImportUsers_\ImportUsers_\obj\Debug\forDNN.Modules.ImportUsers_.dll
+D:\WORK\Projects\SalarO\ImportUsers\ImportUsers_\ImportUsers_\obj\Debug\forDNN.Modules.ImportUsers_.pdb
+D:\WORK\Projects\DotNetNukeStudio\ImportUsers_\ImportUsers_\bin\forDNN.Modules.ImportUsers_.dll
+D:\WORK\Projects\DotNetNukeStudio\ImportUsers_\ImportUsers_\bin\forDNN.Modules.ImportUsers_.pdb
+D:\WORK\Projects\DotNetNukeStudio\ImportUsers_\ImportUsers_\obj\Debug\ResolveAssemblyReference.cache
+D:\WORK\Projects\DotNetNukeStudio\ImportUsers_\ImportUsers_\obj\Debug\forDNN.Modules.ImportUsers_.dll
+D:\WORK\Projects\DotNetNukeStudio\ImportUsers_\ImportUsers_\obj\Debug\forDNN.Modules.ImportUsers_.pdb

@@ -1,0 +1,78 @@
+﻿<dotnetnuke type="Package" version="5.0">
+	<packages>
+		<package name="forDNN.UsersExportImport" type="Module" version="1.0.0">
+			<friendlyName>forDNN.UsersExportImport</friendlyName>
+			<description>This module allows to export/import users, user profiles properties and roles to DotNetNuke from CSV/XML files. This is simple and fast way to create your users accounts in one click.</description>
+			<owner>
+				<name>Sergey Velichko</name>
+				<organization>forDNN Team</organization>
+				<url>&lt;a href="http://forDNN.com" target="_blank"&gt;http://forDNN.com&lt;/a&gt;</url>
+				<email>&lt;a href="mailto:support@forDNN.com" target="_blank"&gt;support@forDNN.com&lt;/a&gt;</email>
+			</owner>
+			<license>
+				Copyright (c) 2011, forDNN Team&lt;br/&gt;
+				All rights reserved.&lt;br/&gt;
+				&lt;br/&gt;
+				Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:&lt;br/&gt;
+				&lt;br/&gt;
+				* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.&lt;br/&gt;
+				&lt;br/&gt;
+				* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.&lt;br/&gt;
+				&lt;br/&gt;
+				* Neither the name of forDNN Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.&lt;br/&gt;
+				&lt;br/&gt;
+				THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+			</license>
+			<releaseNotes />
+			<components>
+				<component type="Module">
+					<desktopModule>
+						<moduleName>forDNN.UsersExportImport</moduleName>
+						<foldername>forDNN.UsersExportImport</foldername>
+						<businessControllerClass />
+						<supportedFeatures />
+						<moduleDefinitions>
+							<moduleDefinition>
+								<friendlyName>forDNN.UsersExportImport</friendlyName>
+								<defaultCacheTime>0</defaultCacheTime>
+								<moduleControls>
+									<moduleControl>
+										<controlKey />
+										<controlSrc>DesktopModules/forDNN.UsersExportImport/MainControl.ascx</controlSrc>
+										<supportsPartialRendering>False</supportsPartialRendering>
+										<controlTitle />
+										<controlType>View</controlType>
+										<iconFile />
+										<helpUrl />
+										<viewOrder>0</viewOrder>
+									</moduleControl>
+								</moduleControls>
+							</moduleDefinition>
+						</moduleDefinitions>
+					</desktopModule>
+				</component>
+				<component type="Assembly">
+					<assemblies>
+						<basePath>bin</basePath>
+						<assembly>
+							<path>bin</path>
+							<name>forDNN.Modules.UsersExportImport.dll</name>
+						</assembly>
+					</assemblies>
+				</component>
+				<component type="File">
+					<files>
+						<basePath>DesktopModules\forDNN.UsersExportImport</basePath>
+						<file>
+							<path>App_LocalResources</path>
+							<name>MainControl.ascx.resx</name>
+						</file>
+						<file>
+							<name>MainControl.ascx</name>
+						</file>
+					</files>
+				</component>
+			</components>
+		</package>
+	</packages>
+</dotnetnuke>

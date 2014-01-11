@@ -1,0 +1,5 @@
+D:\WORK\Projects\DotNetNukeStudio\UsersImporter\obj\Debug\ResolveAssemblyReference.cache
+D:\WORK\Projects\DotNetNukeStudio\UsersImporter\bin\forDNN.Modules.UsersImporter.dll
+D:\WORK\Projects\DotNetNukeStudio\UsersImporter\bin\forDNN.Modules.UsersImporter.pdb
+D:\WORK\Projects\DotNetNukeStudio\UsersImporter\obj\Debug\forDNN.Modules.UsersImporter.dll
+D:\WORK\Projects\DotNetNukeStudio\UsersImporter\obj\Debug\forDNN.Modules.UsersImporter.pdb

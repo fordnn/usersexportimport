@@ -1,0 +1,5 @@
+D:\Work\Projects\DNNstudio\UsersExportImport\bin\forDNN.Modules.UsersExportImport.dll
+D:\Work\Projects\DNNstudio\UsersExportImport\bin\forDNN.Modules.UsersExportImport.pdb
+D:\Work\Projects\DNNstudio\UsersExportImport\obj\Debug\forDNN.Modules.UsersExportImport.dll
+D:\Work\Projects\DNNstudio\UsersExportImport\obj\Debug\forDNN.Modules.UsersExportImport.pdb
+D:\Work\Projects\DNNstudio\UsersExportImport\obj\Debug\UsersExportImport.csprojResolveAssemblyReference.cache
