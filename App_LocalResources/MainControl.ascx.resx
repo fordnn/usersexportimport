@@ -123,6 +123,15 @@
   <data name="Example.Text" xml:space="preserve">
     <value>Example Excel File</value>
   </data>
+  <data name="ExampleCSV.Text" xml:space="preserve">
+    <value>Example of CSV file</value>
+  </data>
+  <data name="Examples.Text" xml:space="preserve">
+    <value>Examples:</value>
+  </data>
+  <data name="ExampleXML.Text" xml:space="preserve">
+    <value>Example of XML file</value>
+  </data>
   <data name="ExportFileType.Text" xml:space="preserve">
     <value>Export File Type</value>
   </data>
@@ -146,6 +155,9 @@
   </data>
   <data name="ExportUsers.Text" xml:space="preserve">
     <value>Export Users</value>
+  </data>
+  <data name="ForcePasswordChange.Text" xml:space="preserve">
+    <value>Set "Force Password Change On" on import</value>
   </data>
   <data name="Import.Text" xml:space="preserve">
     <value>Select File for Import:</value>
@@ -179,6 +191,9 @@
   </data>
   <data name="PropertiesToExport.Text" xml:space="preserve">
     <value>List of profile properties to export (check/uncheck all):</value>
+  </data>
+  <data name="RandomPassword.Text" xml:space="preserve">
+    <value>Generate random passwords on import</value>
   </data>
   <data name="Result.Text" xml:space="preserve">
     <value>Total users to import: {0}&lt;br&gt;Success users have been imported: {1}&lt;br/&gt;{2}</value>

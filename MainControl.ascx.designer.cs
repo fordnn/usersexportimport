@@ -175,6 +175,24 @@ namespace forDNN.Modules.UsersExportImport {
         protected global::System.Web.UI.WebControls.CheckBox cbCreateMissedProfileProperties;
         
         /// <summary>
+        /// cbRandomPassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbRandomPassword;
+        
+        /// <summary>
+        /// cbForcePasswordChange control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbForcePasswordChange;
+        
+        /// <summary>
         /// btnImport control.
         /// </summary>
         /// <remarks>
@@ -182,6 +200,33 @@ namespace forDNN.Modules.UsersExportImport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnImport;
+        
+        /// <summary>
+        /// lblExamples control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExamples;
+        
+        /// <summary>
+        /// lnkExampleCSV control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink lnkExampleCSV;
+        
+        /// <summary>
+        /// lnkExampleXML control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink lnkExampleXML;
         
         /// <summary>
         /// lblResult control.

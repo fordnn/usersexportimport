@@ -71,9 +71,24 @@
         <div>
             <asp:CheckBox runat="server" ID="cbCreateMissedProfileProperties" resourcekey="CreateMissedProfileProperties" CssClass="SubHead normalCheckBox" />
         </div>
+        <div>
+            <asp:CheckBox runat="server" ID="cbRandomPassword" resourcekey="RandomPassword" CssClass="SubHead normalCheckBox" />
+        </div>
+        <div>
+            <asp:CheckBox runat="server" ID="cbForcePasswordChange" resourcekey="ForcePasswordChange" CssClass="SubHead normalCheckBox" />
+        </div>
         <div style="clear: both;">
             <asp:LinkButton ID="btnImport" runat="server" CssClass="dnnPrimaryAction" OnClick="btnImport_Click"
                 resourcekey="ImportUsers"></asp:LinkButton>
+        </div>
+        <div>
+            <asp:Label runat="server" ID="lblExamples" resourcekey="Examples"></asp:Label>
+        </div>
+        <div>
+            <asp:HyperLink runat="server" ID="lnkExampleCSV" resourcekey="ExampleCSV" Target="_blank"></asp:HyperLink>
+        </div>
+        <div>
+            <asp:HyperLink runat="server" ID="lnkExampleXML" resourcekey="ExampleXML" Target="_blank"></asp:HyperLink>
         </div>
     </div>
 </div>

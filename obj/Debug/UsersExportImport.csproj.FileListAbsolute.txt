@@ -3,3 +3,8 @@ D:\Work\Projects\DNNstudio\UsersExportImport\bin\forDNN.Modules.UsersExportImpor
 D:\Work\Projects\DNNstudio\UsersExportImport\obj\Debug\forDNN.Modules.UsersExportImport.dll
 D:\Work\Projects\DNNstudio\UsersExportImport\obj\Debug\forDNN.Modules.UsersExportImport.pdb
 D:\Work\Projects\DNNstudio\UsersExportImport\obj\Debug\UsersExportImport.csprojResolveAssemblyReference.cache
+D:\Work\Projects\forDNN\UsersExportImport\obj\Debug\UsersExportImport.csprojResolveAssemblyReference.cache
+D:\Work\Projects\forDNN\UsersExportImport\obj\Debug\forDNN.Modules.UsersExportImport.dll
+D:\Work\Projects\forDNN\UsersExportImport\obj\Debug\forDNN.Modules.UsersExportImport.pdb
+D:\Work\Projects\forDNN\UsersExportImport\bin\forDNN.Modules.UsersExportImport.dll
+D:\Work\Projects\forDNN\UsersExportImport\bin\forDNN.Modules.UsersExportImport.pdb

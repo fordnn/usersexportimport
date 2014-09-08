@@ -42,6 +42,9 @@ namespace forDNN.Modules.UsersExportImport
 			lblIcon.Style["display"] = "block";
 			lblIcon.Text = "<a href=\"http://forDNN.com\" target=\"_blank\"><img src=\"http://forDNN.com/forDNNTeam.gif\" border=\"0\"/></a>";
 
+			lnkExampleCSV.NavigateUrl = ResolveUrl("Examples/Users_ExpotImport_CSV_Example.csv");
+			lnkExampleXML.NavigateUrl = ResolveUrl("Examples/Users_ExpotImport_XML_Example.xml");
+
 			cbImportProfileProperties.Attributes.Add("onchange",
 				string.Format("javascript:importProfileProperties('#{0}', '#{1}');", cbImportProfileProperties.ClientID, cbCreateMissedProfileProperties.ClientID));
 
@@ -200,12 +203,15 @@ namespace forDNN.Modules.UsersExportImport
 			return dt;
 		}
 
-		private string ValidatePassword(UserInfo objUser)
+		private string ValidatePassword(UserInfo objUser, bool RandomPassword)
 		{
-			objUser.Membership.Password = (objUser.Membership.Password == null) ? "" : objUser.Membership.Password;
-			if (UserController.ValidatePassword(objUser.Membership.Password))
+			if (!RandomPassword)
 			{
-				return objUser.Membership.Password;
+				objUser.Membership.Password = (objUser.Membership.Password == null) ? "" : objUser.Membership.Password;
+				if (UserController.ValidatePassword(objUser.Membership.Password))
+				{
+					return objUser.Membership.Password;
+				}
 			}
 			return UserController.GeneratePassword();
 		}
@@ -274,7 +280,7 @@ namespace forDNN.Modules.UsersExportImport
 					{
 						objUser.Membership.Password = string.Format("{0}", dr["Password"]);
 					}
-					objUser.Membership.Password = ValidatePassword(objUser);
+					objUser.Membership.Password = ValidatePassword(objUser, cbRandomPassword.Checked);
 
 					int AffiliateID = -1;
 					if (Int32.TryParse(string.Format("{0}", dr["AffiliateId"]), out AffiliateID))
@@ -285,7 +291,7 @@ namespace forDNN.Modules.UsersExportImport
 
 					objUser.Membership.Approved = true;
 					objUser.Membership.PasswordQuestion = objUser.Membership.Password;
-					objUser.Membership.UpdatePassword = true;
+					objUser.Membership.UpdatePassword = cbForcePasswordChange.Checked;//update password on next login
 
 					DotNetNuke.Security.Membership.UserCreateStatus objCreateStatus =
 						DotNetNuke.Entities.Users.UserController.CreateUser(ref objUser);

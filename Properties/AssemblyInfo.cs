@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DotNetNuke.Modules.ImportUsers_")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("forDNN.UsersExportImport")]
+[assembly: AssemblyDescription("This module allows to export/import users, user profiles properties and roles to DotNetNuke from CSV/XML files. This is simple and fast way to create your users accounts in one click.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("YourCompany")]
-[assembly: AssemblyProduct("ImportUsers_")]
-[assembly: AssemblyCopyright("(c) YourCompany 2010")]
+[assembly: AssemblyCompany("forDNN")]
+[assembly: AssemblyProduct("Users Export/Import")]
+[assembly: AssemblyCopyright("(c) forDNN 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: GuidAttribute("a9a2f906-2bbe-44fa-9c6d-4c3137d872a8")]
 
