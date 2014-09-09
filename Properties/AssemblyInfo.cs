@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("forDNN.UsersExportImport")]
-[assembly: AssemblyDescription("This module allows to export/import users, user profiles properties and roles to DotNetNuke from CSV/XML files. This is simple and fast way to create your users accounts in one click.")]
+[assembly: AssemblyDescription("This module allows to export/import users, user profiles properties and roles to DNN (former DotNetNuke) from CSV/XML files. This is simple and fast way to create your users accounts in one click.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("forDNN")]
-[assembly: AssemblyProduct("Users Export/Import")]
-[assembly: AssemblyCopyright("(c) forDNN 2014")]
+[assembly: AssemblyProduct("Users Export/Import for DNN (former DotNetNuke)")]
+[assembly: AssemblyCopyright("(c) forDNN 2003-2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: GuidAttribute("a9a2f906-2bbe-44fa-9c6d-4c3137d872a8")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.1.0")]
+[assembly: AssemblyFileVersion("1.1.1.0")]

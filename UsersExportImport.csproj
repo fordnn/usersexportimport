@@ -87,7 +87,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Install\UsersExportImport.dnn" />
-    <None Include="Install\_UsersExportImport.dnn" />
+    <None Include="Install\_UsersExportImport.dnn">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="web.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
@@ -135,7 +137,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>D:\Work\Projects\forDNN\UsersExportImport\Install\Compiled.bat</PostBuildEvent>
   </PropertyGroup>
 </Project>

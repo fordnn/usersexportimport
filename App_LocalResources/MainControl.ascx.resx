@@ -148,7 +148,7 @@
     <value>Export Passwords</value>
   </data>
   <data name="ExportPasswordsDisabled.Text" xml:space="preserve">
-    <value>Export Passwords &lt;span class="NormalRed"&gt;(disabled for this portal, because enablePasswordRetrieval="false")&lt;/span&gt;</value>
+    <value>Export Passwords disabled for this portal, because enablePasswordRetrieval="false" in web.config file.</value>
   </data>
   <data name="ExportRoles.Text" xml:space="preserve">
     <value>Export Roles</value>
@@ -212,5 +212,62 @@
   </data>
   <data name="UpdateRolesError.Text" xml:space="preserve">
     <value>Line {0}, UserID={1}, updating roles error "{2}"&lt;br/&gt;</value>
+  </data>
+  <data name="CreateMissedProfileProperties.Help" xml:space="preserve">
+    <value>When checked and due import process any profile property is absent for current portal, then this profile property will be automatically added.</value>
+  </data>
+  <data name="EmailUser.Help" xml:space="preserve">
+    <value>On success import an email will be sent to the user. Templates for subject and body can be defined in the localization "EmailUserSubject" and "EmailUserBody" entries. In the template can be used standard DNN tokens, like: [Portal:PortalName], [User:DisplayName], etc. For new generated passwords please use token [User:Password].</value>
+  </data>
+  <data name="EmailUser.Text" xml:space="preserve">
+    <value>Email user after import</value>
+  </data>
+  <data name="EmailUserBody.Text" xml:space="preserve">
+    <value>Dear [User:DisplayName] your new password for [Portal:PortalName] is &lt;b&gt;[User:Password]&lt;/b&gt;</value>
+  </data>
+  <data name="EmailUserSubject.Text" xml:space="preserve">
+    <value>You have new password for [Portal:PortalName]</value>
+  </data>
+  <data name="Examples.Help" xml:space="preserve">
+    <value>Examples of the files to import.</value>
+  </data>
+  <data name="ExportFileType.Help" xml:space="preserve">
+    <value>Type of file data will be exported to. There are 2 possible types: CSV and XML.</value>
+  </data>
+  <data name="ExportPasswords.Help" xml:space="preserve">
+    <value>Allows to export passwords. This option is available only when "enablePasswordRetrieval" in web.config is "true".</value>
+  </data>
+  <data name="ExportRoles.Help" xml:space="preserve">
+    <value>Check this to include users roles into the exported list. When checked, resulted list will contain two extra fields: "RoleIDs" (contains comma delimited RoleIDs) and Roles (contains comma delimited RoleNames).</value>
+  </data>
+  <data name="ForcePasswordChange.Help" xml:space="preserve">
+    <value>When checked it sets "Force Password Change On" for all imported users, so users must change password on next login.</value>
+  </data>
+  <data name="Import.Help" xml:space="preserve">
+    <value>File with users list to import.</value>
+  </data>
+  <data name="ImportProfileProperties.Help" xml:space="preserve">
+    <value>Check this to import users profile properties.</value>
+  </data>
+  <data name="ImportRoles.Help" xml:space="preserve">
+    <value>The method how roles should be imported.</value>
+  </data>
+  <data name="ImportRoles.Text" xml:space="preserve">
+    <value>Import roles</value>
+  </data>
+  <data name="IncludeDeleted.Help" xml:space="preserve">
+    <value>Check this to include users accounts marked as "Deleted" into the exported list.</value>
+  </data>
+  <data name="IncludeNonAuthorised.Help" xml:space="preserve">
+    <value>Check this to include non-authorised users accounts into the exported list.</value>
+  </data>
+  <data name="IncludeSuperUsers.Help" xml:space="preserve">
+    <value>Check this to include SuperUsers accounts into the exported list.</value>
+  </data>
+  <data name="PropertiesToExport.Help" xml:space="preserve">
+    <value>Possible to define what users profile properties to include into the exported list.</value>
+  </data>
+  <data name="RandomPassword.Help" xml:space="preserve">
+    <value>When checked it generates random password for all imported users.</value>
   </data>
 </root>

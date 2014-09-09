@@ -37,7 +37,7 @@ namespace forDNN.Modules.UsersExportImport {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblExportFileType;
+        protected global::System.Web.UI.UserControl lblExportFileType;
         
         /// <summary>
         /// ddlExportFileType control.
@@ -49,6 +49,15 @@ namespace forDNN.Modules.UsersExportImport {
         protected global::System.Web.UI.WebControls.DropDownList ddlExportFileType;
         
         /// <summary>
+        /// lblIncludeSuperUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblIncludeSuperUsers;
+        
+        /// <summary>
         /// cbIncludeSuperUsers control.
         /// </summary>
         /// <remarks>
@@ -56,6 +65,15 @@ namespace forDNN.Modules.UsersExportImport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbIncludeSuperUsers;
+        
+        /// <summary>
+        /// lblIncludeDeleted control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblIncludeDeleted;
         
         /// <summary>
         /// cbIncludeDeleted control.
@@ -67,6 +85,15 @@ namespace forDNN.Modules.UsersExportImport {
         protected global::System.Web.UI.WebControls.CheckBox cbIncludeDeleted;
         
         /// <summary>
+        /// lblIncludeNonAuthorised control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblIncludeNonAuthorised;
+        
+        /// <summary>
         /// cbIncludeNonAuthorised control.
         /// </summary>
         /// <remarks>
@@ -74,6 +101,15 @@ namespace forDNN.Modules.UsersExportImport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbIncludeNonAuthorised;
+        
+        /// <summary>
+        /// lblExportRoles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblExportRoles;
         
         /// <summary>
         /// cbExportRoles control.
@@ -85,6 +121,15 @@ namespace forDNN.Modules.UsersExportImport {
         protected global::System.Web.UI.WebControls.CheckBox cbExportRoles;
         
         /// <summary>
+        /// lblExportPasswords control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblExportPasswords;
+        
+        /// <summary>
         /// cbExportPasswords control.
         /// </summary>
         /// <remarks>
@@ -94,13 +139,22 @@ namespace forDNN.Modules.UsersExportImport {
         protected global::System.Web.UI.WebControls.CheckBox cbExportPasswords;
         
         /// <summary>
+        /// lblExportPasswordsDisabled control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExportPasswordsDisabled;
+        
+        /// <summary>
         /// lblPropertiesToExport control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPropertiesToExport;
+        protected global::System.Web.UI.UserControl lblPropertiesToExport;
         
         /// <summary>
         /// cbPropertiesToExport control.
@@ -136,7 +190,7 @@ namespace forDNN.Modules.UsersExportImport {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblImport;
+        protected global::System.Web.UI.UserControl lblImport;
         
         /// <summary>
         /// objFile control.
@@ -148,6 +202,15 @@ namespace forDNN.Modules.UsersExportImport {
         protected global::System.Web.UI.HtmlControls.HtmlInputFile objFile;
         
         /// <summary>
+        /// lblImportRoles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblImportRoles;
+        
+        /// <summary>
         /// rblImportRoles control.
         /// </summary>
         /// <remarks>
@@ -155,6 +218,15 @@ namespace forDNN.Modules.UsersExportImport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList rblImportRoles;
+        
+        /// <summary>
+        /// lblImportProfileProperties control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblImportProfileProperties;
         
         /// <summary>
         /// cbImportProfileProperties control.
@@ -166,6 +238,15 @@ namespace forDNN.Modules.UsersExportImport {
         protected global::System.Web.UI.WebControls.CheckBox cbImportProfileProperties;
         
         /// <summary>
+        /// lblCreateMissedProfileProperties control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblCreateMissedProfileProperties;
+        
+        /// <summary>
         /// cbCreateMissedProfileProperties control.
         /// </summary>
         /// <remarks>
@@ -173,6 +254,15 @@ namespace forDNN.Modules.UsersExportImport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbCreateMissedProfileProperties;
+        
+        /// <summary>
+        /// lblRandomPassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblRandomPassword;
         
         /// <summary>
         /// cbRandomPassword control.
@@ -184,6 +274,15 @@ namespace forDNN.Modules.UsersExportImport {
         protected global::System.Web.UI.WebControls.CheckBox cbRandomPassword;
         
         /// <summary>
+        /// lblForcePasswordChange control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblForcePasswordChange;
+        
+        /// <summary>
         /// cbForcePasswordChange control.
         /// </summary>
         /// <remarks>
@@ -191,6 +290,24 @@ namespace forDNN.Modules.UsersExportImport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbForcePasswordChange;
+        
+        /// <summary>
+        /// lblEmailUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblEmailUser;
+        
+        /// <summary>
+        /// cbEmailUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbEmailUser;
         
         /// <summary>
         /// btnImport control.
@@ -208,7 +325,7 @@ namespace forDNN.Modules.UsersExportImport {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblExamples;
+        protected global::System.Web.UI.UserControl lblExamples;
         
         /// <summary>
         /// lnkExampleCSV control.

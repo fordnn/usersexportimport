@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 using DotNetNuke;
 using DotNetNuke.Common.Utilities;
@@ -17,6 +18,7 @@ using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Profile;
 using DotNetNuke.Entities.Modules.Actions;
+using DotNetNuke.UI.UserControls;
 
 using DotNetNuke.Security.Roles;
 
@@ -27,6 +29,15 @@ namespace forDNN.Modules.UsersExportImport
 	{
 
 		#region "Event Handlers"
+
+		private Regex objRegExPassword = new Regex(
+												  "\\[User\\:Password\\]",
+												RegexOptions.IgnoreCase
+												| RegexOptions.Multiline
+												| RegexOptions.Singleline
+												| RegexOptions.CultureInvariant
+												| RegexOptions.Compiled
+												);
 
 		private void FillProperties()
 		{
@@ -55,14 +66,10 @@ namespace forDNN.Modules.UsersExportImport
 				cbPropertiesToExport.Attributes.Add("onchange",
 					string.Format("javascript:$('#divPropertiesToExport input').prop('checked', $('#{0}').is(':checked'));", cbPropertiesToExport.ClientID));
 
-				if (DotNetNuke.Security.Membership.MembershipProviderConfig.PasswordRetrievalEnabled)
-				{
-					cbExportPasswords.Text = Localization.GetString("ExportPasswords", this.LocalResourceFile);
-				}
-				else
+				if (!DotNetNuke.Security.Membership.MembershipProviderConfig.PasswordRetrievalEnabled)
 				{
 					cbExportPasswords.Enabled = false;
-					cbExportPasswords.Text = Localization.GetString("ExportPasswordsDisabled", this.LocalResourceFile);
+					lblExportPasswordsDisabled.Visible = true;
 				}
 			}
 		}
@@ -255,6 +262,9 @@ namespace forDNN.Modules.UsersExportImport
 			}
 
 			string NonProfileFields = ",userid,username,firstname,lastname,displayname,issuperuser,email,affiliateid,authorised,isdeleted,roleids,roles,";
+			
+			string SubjectTemplate = Localization.GetString("EmailUserSubject", this.LocalResourceFile);
+			string BodyTemplate = Localization.GetString("EmailUserBody", this.LocalResourceFile);
 
 			int UsersCount = 0;
 			int SuccessUsersCount = 0;
@@ -349,6 +359,11 @@ namespace forDNN.Modules.UsersExportImport
 								objUser.UserID,
 								RolesStatus);
 						}
+
+						if (cbEmailUser.Checked)
+						{
+							SendEmail(objUser, SubjectTemplate, BodyTemplate);
+						}
 					}
 					else
 					{
@@ -424,6 +439,31 @@ namespace forDNN.Modules.UsersExportImport
 				}
 			}
 			return sb.ToString();
+		}
+
+		private void SendEmail(UserInfo objUser, string SubjectTemplate, string BodyTemplate)
+		{
+			try
+			{
+				DotNetNuke.Services.Tokens.TokenReplace objTokenReplace =
+					new DotNetNuke.Services.Tokens.TokenReplace(
+						DotNetNuke.Services.Tokens.Scope.DefaultSettings,
+						System.Globalization.CultureInfo.CurrentCulture.Name,
+						PortalSettings,
+						objUser);
+
+				string Subject = objRegExPassword.Replace(SubjectTemplate, objUser.Membership.Password);
+				string Body = objRegExPassword.Replace(BodyTemplate, objUser.Membership.Password);
+
+				Subject = objTokenReplace.ReplaceEnvironmentTokens(Subject);
+				Body = objTokenReplace.ReplaceEnvironmentTokens(Body);
+
+				DotNetNuke.Services.Mail.Mail.SendEmail(this.PortalSettings.Email, objUser.Email, Subject, Body);
+			}
+			catch (Exception Exc)
+			{
+				Exceptions.ProcessModuleLoadException(this, Exc);
+			}
 		}
 
 		protected void btnImport_Click(object sender, EventArgs e)
