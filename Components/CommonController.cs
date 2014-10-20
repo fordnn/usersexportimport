@@ -2,13 +2,19 @@
 using System.Data;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
+using DotNetNuke.Entities.Users;
+using DotNetNuke.Entities.Portals;
 
 namespace forDNN.Modules.UsersExportImport
 {
 	public class CommonController
 	{
+		#region Export functonality
+
 		public static string ToXML(DataTable dt)
 		{
 			System.Xml.XmlDocument objDoc = new System.Xml.XmlDocument();
@@ -75,6 +81,74 @@ namespace forDNN.Modules.UsersExportImport
 			sb = null;
 			return csvRows.ToString();
 		}
+
+		#endregion
+
+		#region Send Email to Users
+
+		private static Regex objRegExPassword = new Regex(
+												  "\\[User\\:Password\\]",
+												RegexOptions.IgnoreCase
+												| RegexOptions.Multiline
+												| RegexOptions.Singleline
+												| RegexOptions.CultureInvariant
+												| RegexOptions.Compiled
+												);
+
+		public static string SendEmail(UserInfo objUser, string SubjectTemplate, string BodyTemplate, PortalSettings objPortalSettings)
+		{
+			try
+			{
+				if (!IsValidEmail(objUser.Email))
+				{
+					return "InvalidEmail";
+				}
+
+				//send email
+				DotNetNuke.Services.Tokens.TokenReplace objTokenReplace =
+					new DotNetNuke.Services.Tokens.TokenReplace(
+						DotNetNuke.Services.Tokens.Scope.DefaultSettings,
+						System.Globalization.CultureInfo.CurrentCulture.Name,
+						objPortalSettings,
+						objUser);
+
+				string Subject = objRegExPassword.Replace(SubjectTemplate, objUser.Membership.Password);
+				string Body = objRegExPassword.Replace(BodyTemplate, objUser.Membership.Password);
+
+				Subject = objTokenReplace.ReplaceEnvironmentTokens(Subject);
+				Body = objTokenReplace.ReplaceEnvironmentTokens(Body);
+
+				DotNetNuke.Services.Mail.Mail.SendEmail(objPortalSettings.Email, objUser.Email, Subject, Body);
+			}
+			catch (Exception Exc)
+			{
+				return Exc.Message;
+			}
+			return "";
+		}
+
+		public static bool IsValidEmail(string Email)
+		{
+			//check is empty
+			if (Email.Trim() == "")
+			{
+				return false;
+			}
+
+			//check is valid at all
+			try
+			{
+				MailAddress m = new MailAddress(Email);
+
+				return true;
+			}
+			catch (FormatException)
+			{
+				return false;
+			}
+		}
+
+		#endregion
 
 		public static void ResponseFile(string ContentType, byte[] lstBytes, string FileName)
 		{

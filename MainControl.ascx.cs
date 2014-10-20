@@ -30,15 +30,6 @@ namespace forDNN.Modules.UsersExportImport
 
 		#region "Event Handlers"
 
-		private Regex objRegExPassword = new Regex(
-												  "\\[User\\:Password\\]",
-												RegexOptions.IgnoreCase
-												| RegexOptions.Multiline
-												| RegexOptions.Singleline
-												| RegexOptions.CultureInvariant
-												| RegexOptions.Compiled
-												);
-
 		private void FillProperties()
 		{
 			cblPropertiesToExport.DataSource = ProfileController.GetPropertyDefinitionsByPortal(this.PortalId);
@@ -362,7 +353,26 @@ namespace forDNN.Modules.UsersExportImport
 
 						if (cbEmailUser.Checked)
 						{
-							SendEmail(objUser, SubjectTemplate, BodyTemplate);
+							string SendEmailResult = CommonController.SendEmail(objUser, SubjectTemplate, BodyTemplate, this.PortalSettings);
+							
+							switch (SendEmailResult)
+							{ 
+								case "":
+									//success
+									break;
+								case "InvalidEmail":
+									FailedUsers.AppendFormat(Localization.GetString("SendEmailInvalidEmailException", this.LocalResourceFile),
+										UsersCount,
+										objUser.Username,
+										objUser.Email);
+									break;
+								default:
+									FailedUsers.AppendFormat(Localization.GetString("SendEmailException", this.LocalResourceFile),
+										UsersCount,
+										objUser.Username,
+										SendEmailResult);
+									break;
+							}
 						}
 					}
 					else
@@ -439,31 +449,6 @@ namespace forDNN.Modules.UsersExportImport
 				}
 			}
 			return sb.ToString();
-		}
-
-		private void SendEmail(UserInfo objUser, string SubjectTemplate, string BodyTemplate)
-		{
-			try
-			{
-				DotNetNuke.Services.Tokens.TokenReplace objTokenReplace =
-					new DotNetNuke.Services.Tokens.TokenReplace(
-						DotNetNuke.Services.Tokens.Scope.DefaultSettings,
-						System.Globalization.CultureInfo.CurrentCulture.Name,
-						PortalSettings,
-						objUser);
-
-				string Subject = objRegExPassword.Replace(SubjectTemplate, objUser.Membership.Password);
-				string Body = objRegExPassword.Replace(BodyTemplate, objUser.Membership.Password);
-
-				Subject = objTokenReplace.ReplaceEnvironmentTokens(Subject);
-				Body = objTokenReplace.ReplaceEnvironmentTokens(Body);
-
-				DotNetNuke.Services.Mail.Mail.SendEmail(this.PortalSettings.Email, objUser.Email, Subject, Body);
-			}
-			catch (Exception Exc)
-			{
-				Exceptions.ProcessModuleLoadException(this, Exc);
-			}
 		}
 
 		protected void btnImport_Click(object sender, EventArgs e)

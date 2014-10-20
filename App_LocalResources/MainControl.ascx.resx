@@ -270,4 +270,10 @@
   <data name="RandomPassword.Help" xml:space="preserve">
     <value>When checked it generates random password for all imported users.</value>
   </data>
+  <data name="SendEmailException.Text" xml:space="preserve">
+    <value>Line {0}, UserID={1}, SendEmail exception "{2}"&lt;br/&gt;</value>
+  </data>
+  <data name="SendEmailInvalidEmailException.Text" xml:space="preserve">
+    <value>Line {0}, UserID={1}, SendEmail exception due wrong email format "{2}"&lt;br/&gt;</value>
+  </data>
 </root>
