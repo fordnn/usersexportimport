@@ -57,7 +57,7 @@ namespace forDNN.Modules.UsersExportImport
 			foreach(DataRow dr in dt.Rows)
 			{
 				sb = new StringBuilder();
-				for (int index = 0; index < ColumnsCount - 1; index++)
+				for (int index = 0; index < ColumnsCount; index++)
 				{
 					string value = string.Format(string.Format("{0}", dr[index]));
 					if (dt.Columns[index].DataType == typeof(String))
