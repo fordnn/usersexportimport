@@ -59,7 +59,7 @@ namespace forDNN.Modules.UsersExportImport
 				sb = new StringBuilder();
 				for (int index = 0; index < ColumnsCount; index++)
 				{
-					string value = string.Format(string.Format("{0}", dr[index]));
+					string value = string.Format("{0}", dr[index]);
 					if (dt.Columns[index].DataType == typeof(String))
 					{
 						//If double quotes are used in value, ensure each are replaced but 2.
