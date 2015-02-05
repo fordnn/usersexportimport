@@ -504,7 +504,7 @@ namespace forDNN.Modules.UsersExportImport
 		u.Authorised");
 
 			StringBuilder sbFrom = new StringBuilder(@"
- FROM	vw_Users u ");
+ FROM	 {databaseOwner}{objectQualifier}vw_Users u ");
 			StringBuilder sbWhere = new StringBuilder(@"
  WHERE	(1=1) 
 	AND (u.UserID IN (SELECT UserID FROM {databaseOwner}{objectQualifier}UserPortals up WHERE (((u.UserID=up.UserId) AND (up.PortalId={0})) OR (u.IsSuperUser=1)))) ".Replace("{0}", this.PortalId.ToString()));
