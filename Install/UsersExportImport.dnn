@@ -6,7 +6,7 @@
 			<foldername>forDNN.UsersExportImport</foldername>
 			<modulename>forDNN.UsersExportImport</modulename>
 			<description>This module allows to export/import users, user profiles properties and roles to DotNetNuke from CSV/XML files. This is simple and fast way to create your users accounts in one click.</description>
-			<version>01.01.04</version>
+			<version>01.01.05</version>
       <resourcefile>resources.zip</resourcefile>
 			<modules>
 				<module>

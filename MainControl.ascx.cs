@@ -50,6 +50,8 @@ namespace forDNN.Modules.UsersExportImport
 			cbImportProfileProperties.Attributes.Add("onchange",
 				string.Format("javascript:importProfileProperties('#{0}', '#{1}');", cbImportProfileProperties.ClientID, cbCreateMissedProfileProperties.ClientID));
 
+			lblMaxAllowedFileSize.Text = string.Format(Localization.GetString("MaxAllowedFileSize", this.LocalResourceFile), CommonController.GetMaxAllowedFileSize());
+
 			if (!IsPostBack)
 			{
 				FillProperties();
@@ -507,7 +509,7 @@ namespace forDNN.Modules.UsersExportImport
  FROM	 {databaseOwner}{objectQualifier}vw_Users u ");
 			StringBuilder sbWhere = new StringBuilder(@"
  WHERE	(1=1) 
-	AND (u.UserID IN (SELECT UserID FROM {databaseOwner}{objectQualifier}UserPortals up WHERE (((u.UserID=up.UserId) AND (up.PortalId={0})) OR (u.IsSuperUser=1)))) ".Replace("{0}", this.PortalId.ToString()));
+	AND ((u.PortalId={0}) OR (u.IsSuperUser=1)) ".Replace("{0}", this.PortalId.ToString()));
 
 			//check SuperUsers
 			if (!cbIncludeSuperUsers.Checked)
@@ -537,15 +539,15 @@ namespace forDNN.Modules.UsersExportImport
 			{
 				sbSelect.Append(@",		(SELECT	CAST(ur.RoleID AS nvarchar(10)) + ','
 		FROM	{databaseOwner}{objectQualifier}UserRoles ur
-		WHERE	ur.UserID=u.UserID
+		WHERE	(ur.UserID=u.UserID) AND (ur.RoleID IN (SELECT r.RoleID FROM {databaseOwner}{objectQualifier}Roles r WHERE (r.PortalID={0}))) 
 		FOR XML PATH('')) RoleIDs,
 		
 		(SELECT	r.RoleName + ','
 		FROM	{databaseOwner}{objectQualifier}UserRoles ur
 				LEFT JOIN {databaseOwner}{objectQualifier}Roles r ON (ur.RoleID=r.RoleID)
-		WHERE	ur.UserID=u.UserID
+		WHERE	(ur.UserID=u.UserID) AND (ur.RoleID IN (SELECT r.RoleID FROM {databaseOwner}{objectQualifier}Roles r WHERE (r.PortalID={0})))
 		FOR XML PATH('')) Roles 
-");
+").Replace("{0}", this.PortalId.ToString());
 
 				htFieldNames["RoleIDs"] = 1;
 				htFieldNames["Roles"] = 1;

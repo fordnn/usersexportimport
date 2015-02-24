@@ -73,6 +73,9 @@
                 <dnn:Label ID="lblImport" runat="server" resourcekey="Import"></dnn:Label>
                 <input id="objFile" type="file" name="objFile" runat="server">
             </div>
+            <div>
+                <asp:Label ID="lblMaxAllowedFileSize" runat="server" CssClass="NormalRed"></asp:Label>
+            </div>
             <div class="dnnFormItem">
                 <dnn:Label ID="lblImportRoles" runat="server" resourcekey="ImportRoles"></dnn:Label>
                 <asp:RadioButtonList runat="server" ID="rblImportRoles">

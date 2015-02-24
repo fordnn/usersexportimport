@@ -1,0 +1,28 @@
+﻿if exists (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}{objectQualifier}UpdateUserPortals') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure {databaseOwner}{objectQualifier}UpdateUserPortals
+GO
+
+GO
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS OFF
+GO
+CREATE PROCEDURE {databaseOwner}{objectQualifier}UpdateUserPortals
+	@PortalID	[int],
+	@UserName	[nvarchar] (50)
+AS
+	DECLARE @UserID int;
+
+	SELECT @UserID = UserID 
+	FROM {databaseOwner}{objectQualifier}users
+	WHERE Username = @UserName;
+
+	IF(NOT EXISTS(SELECT PortalID FROM {databaseOwner}{objectQualifier}UserPortals WHERE (UserID=@UserID) AND (PortalID=@PortalID))) AND (@UserID IS NOT NULL)
+	BEGIN
+		INSERT INTO {databaseOwner}{objectQualifier}UserPortals (UserID, PortalID, CreatedDate, Authorised, IsDeleted, RefreshRoles)
+		VALUES(@UserID, @PortalID, GETDATE(), 1, 0, 0);
+	END;
+GO
+SET QUOTED_IDENTIFIER OFF
+GO
+SET ANSI_NULLS ON

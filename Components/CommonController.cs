@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Configuration;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Entities.Portals;
 
@@ -161,6 +162,13 @@ namespace forDNN.Modules.UsersExportImport
 			objResponse.OutputStream.Write(lstBytes, 0, lstBytes.Length);
 			objResponse.Flush();
 			objResponse.End();
+		}
+
+		public static string GetMaxAllowedFileSize()
+		{
+			System.Configuration.Configuration config = WebConfigurationManager.OpenWebConfiguration("~");
+			HttpRuntimeSection section = config.GetSection("system.web/httpRuntime") as HttpRuntimeSection;
+			return string.Format("{0} kB", section.MaxRequestLength);
 		}
 	}
 }

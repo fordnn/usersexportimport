@@ -276,4 +276,7 @@
   <data name="SendEmailInvalidEmailException.Text" xml:space="preserve">
     <value>Line {0}, UserID={1}, SendEmail exception due wrong email format "{2}"&lt;br/&gt;</value>
   </data>
+  <data name="MaxAllowedFileSize.Text" xml:space="preserve">
+    <value>Max allowed file size for upload is {0}</value>
+  </data>
 </root>

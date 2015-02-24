@@ -1,5 +1,7 @@
 D:\Work\Projects\bin\forDNN.Modules.UsersExportImport.dll
 D:\Work\Projects\bin\forDNN.Modules.UsersExportImport.pdb
-D:\Work\Projects\forDNN\UsersExportImport\obj\Release\UsersExportImport.csprojResolveAssemblyReference.cache
 D:\Work\Projects\forDNN\UsersExportImport\obj\Release\forDNN.Modules.UsersExportImport.dll
 D:\Work\Projects\forDNN\UsersExportImport\obj\Release\forDNN.Modules.UsersExportImport.pdb
+D:\Work\Projects\forDNN\UsersExportImport\bin\forDNN.Modules.UsersExportImport.dll
+D:\Work\Projects\forDNN\UsersExportImport\bin\forDNN.Modules.UsersExportImport.pdb
+D:\Work\Projects\forDNN\UsersExportImport\obj\Release\UsersExportImport.csprojResolveAssemblyReference.cache
