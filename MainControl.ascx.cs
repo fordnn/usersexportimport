@@ -52,6 +52,11 @@ namespace forDNN.Modules.UsersExportImport
 
 			lblMaxAllowedFileSize.Text = string.Format(Localization.GetString("MaxAllowedFileSize", this.LocalResourceFile), CommonController.GetMaxAllowedFileSize());
 
+			if (this.UserInfo != null)
+			{
+				divIncludeSuperUsers.Visible = this.UserInfo.IsSuperUser;
+			}
+
 			if (!IsPostBack)
 			{
 				FillProperties();
@@ -65,6 +70,8 @@ namespace forDNN.Modules.UsersExportImport
 					lblExportPasswordsDisabled.Visible = true;
 				}
 			}
+
+			btnExportUsers.Attributes.Add("onclick", string.Format("javascript:return doExport({0});", this.ModuleId));
 		}
 
 		protected void Page_Load(object sender, System.EventArgs e)
@@ -85,6 +92,12 @@ namespace forDNN.Modules.UsersExportImport
 
 		#region Import
 
+		private string RemoveWhiteSpaces(string Source)
+		{
+			//remove Zero width space and Zero width no-break space
+			return Source.Trim(new char[] { '\uFEFF', '\u200B' });
+		}
+
 		private DataTable CSV2Table(byte[] lstBytes)
 		{
 			string Separator = ",";
@@ -100,7 +113,8 @@ namespace forDNN.Modules.UsersExportImport
 
 			foreach (string Header in lstRows[0].Split(new char[] { ',' }))
 			{
-				dt.Columns.Add(Header);
+				//lets remove white space chars from the column's name
+				dt.Columns.Add(RemoveWhiteSpaces(Header));
 			}
 
 			for (int i = 1; (i < lstRows.Length - 1); i++)
@@ -216,6 +230,15 @@ namespace forDNN.Modules.UsersExportImport
 			return UserController.GeneratePassword();
 		}
 
+		private object GetDataRowValue(DataTable dt, DataRow dr, string FieldName, object DefaultValue)
+		{
+			if (dt.Columns.IndexOf(FieldName) == -1)
+			{
+				return DefaultValue;
+			}
+			return dr[FieldName];
+		}
+
 		private void DoImport()
 		{
 			if (objFile.PostedFile.FileName == "")
@@ -255,7 +278,7 @@ namespace forDNN.Modules.UsersExportImport
 			}
 
 			string NonProfileFields = ",userid,username,firstname,lastname,displayname,issuperuser,email,affiliateid,authorised,isdeleted,roleids,roles,";
-			
+
 			string SubjectTemplate = Localization.GetString("EmailUserSubject", this.LocalResourceFile);
 			string BodyTemplate = Localization.GetString("EmailUserBody", this.LocalResourceFile);
 
@@ -273,11 +296,13 @@ namespace forDNN.Modules.UsersExportImport
 					objUser.Email = string.Format("{0}", dr["Email"]);
 					objUser.FirstName = string.Format("{0}", dr["FirstName"]);
 					objUser.LastName = string.Format("{0}", dr["LastName"]);
-					objUser.DisplayName = string.Format("{0}", dr["DisplayName"]);
+					objUser.DisplayName = string.Format("{0}", GetDataRowValue(dt, dr, "DisplayName", string.Format("{0} {1}", dr["FirstName"], dr["LastName"]) ));
 					objUser.PortalID = this.PortalId;
 
-					objUser.IsSuperUser = (string.Format("{0}", dr["IsSuperUser"]) == "1");
-					objUser.Username = string.Format("{0}", dr["Username"]);
+					objUser.IsSuperUser = (string.Format("{0}", GetDataRowValue(dt, dr, "IsSuperUser", "0")) == "1");
+
+					//use email as username, when username is not provided
+					objUser.Username = string.Format("{0}", GetDataRowValue(dt, dr, "Username", objUser.Email));
 
 					if (dt.Columns.Contains("Password"))
 					{
@@ -286,11 +311,10 @@ namespace forDNN.Modules.UsersExportImport
 					objUser.Membership.Password = ValidatePassword(objUser, cbRandomPassword.Checked);
 
 					int AffiliateID = -1;
-					if (Int32.TryParse(string.Format("{0}", dr["AffiliateId"]), out AffiliateID))
+					if (Int32.TryParse(string.Format("{0}", GetDataRowValue(dt, dr, "AffiliateId", -1)), out AffiliateID))
 					{
 						objUser.AffiliateID = AffiliateID;
 					}
-
 
 					objUser.Membership.Approved = true;
 					objUser.Membership.PasswordQuestion = objUser.Membership.Password;
@@ -300,17 +324,20 @@ namespace forDNN.Modules.UsersExportImport
 						DotNetNuke.Entities.Users.UserController.CreateUser(ref objUser);
 					if (objCreateStatus == DotNetNuke.Security.Membership.UserCreateStatus.Success)
 					{
-						objUser.Profile.SetProfileProperty("OldUserID", string.Format("{0}", dr["UserID"]));
+						if (dt.Columns.IndexOf("UserID") != -1)
+						{
+							objUser.Profile.SetProfileProperty("OldUserID", string.Format("{0}", dr["UserID"]));
+						}
 						SuccessUsersCount++;
 
 						//Update Profile
-						objUser.Profile.Country = string.Format("{0}", dr["Country"]);
-						objUser.Profile.Street = string.Format("{0}", dr["Street"]);
-						objUser.Profile.City = string.Format("{0}", dr["City"]);
-						objUser.Profile.Region = string.Format("{0}", dr["Region"]);
-						objUser.Profile.PostalCode = string.Format("{0}", dr["PostalCode"]);
-						objUser.Profile.Unit = string.Format("{0}", dr["Unit"]);
-						objUser.Profile.Telephone = string.Format("{0}", dr["Telephone"]);
+						objUser.Profile.Country =	string.Format("{0}", GetDataRowValue(dt, dr, "Country", ""));
+						objUser.Profile.Street =	string.Format("{0}", GetDataRowValue(dt, dr, "Street", ""));
+						objUser.Profile.City =		string.Format("{0}", GetDataRowValue(dt, dr, "City", ""));
+						objUser.Profile.Region =	string.Format("{0}", GetDataRowValue(dt, dr, "Region", ""));
+						objUser.Profile.PostalCode =	string.Format("{0}", GetDataRowValue(dt, dr, "PostalCode", ""));
+						objUser.Profile.Unit =		string.Format("{0}", GetDataRowValue(dt, dr, "Unit", ""));
+						objUser.Profile.Telephone =	string.Format("{0}", GetDataRowValue(dt, dr, "Telephone", ""));
 						objUser.Profile.FirstName = objUser.FirstName;
 						objUser.Profile.LastName = objUser.LastName;
 
@@ -356,9 +383,9 @@ namespace forDNN.Modules.UsersExportImport
 						if (cbEmailUser.Checked)
 						{
 							string SendEmailResult = CommonController.SendEmail(objUser, SubjectTemplate, BodyTemplate, this.PortalSettings);
-							
+
 							switch (SendEmailResult)
-							{ 
+							{
 								case "":
 									//success
 									break;
@@ -456,165 +483,6 @@ namespace forDNN.Modules.UsersExportImport
 		protected void btnImport_Click(object sender, EventArgs e)
 		{
 			DoImport();
-		}
-
-		#endregion
-
-		#region Export
-
-		protected void btnExportUsers_Click(object sender, EventArgs e)
-		{
-			DoExport();
-		}
-
-		private void DoExport()
-		{
-			IDataReader idr = null;
-
-			//check if IsDeleted column exists
-			bool IsDeletedExists = true;
-			try
-			{
-				idr = DotNetNuke.Data.DataProvider.Instance().ExecuteSQL("SELECT	TOP 1 IsDeleted FROM {databaseOwner}{objectQualifier}vw_Users");
-			}
-			catch
-			{
-				IsDeletedExists = false;
-			}
-
-			//build dynamic query to retireve data
-			Hashtable htFieldNames = new Hashtable();
-			htFieldNames["UserID"] = 1;
-			htFieldNames["UserName"] = 1;
-			htFieldNames["FirstName"] = 1;
-			htFieldNames["LastName"] = 1;
-			htFieldNames["DisplayName"] = 1;
-			htFieldNames["IsSuperUser"] = 1;
-			htFieldNames["Email"] = 1;
-			htFieldNames["AffiliateId"] = 1;
-			htFieldNames["Authorised"] = 1;
-
-			StringBuilder sbSelect = new StringBuilder(
-@"SELECT	u.UserID,
-		u.UserName,
-		u.FirstName,
-		u.LastName,
-		u.DisplayName,
-		u.IsSuperUser,
-		u.Email,
-		u.AffiliateId,
-		u.Authorised");
-
-			StringBuilder sbFrom = new StringBuilder(@"
- FROM	 {databaseOwner}{objectQualifier}vw_Users u ");
-			StringBuilder sbWhere = new StringBuilder(@"
- WHERE	(1=1) 
-	AND ((u.PortalId={0}) OR (u.IsSuperUser=1)) ".Replace("{0}", this.PortalId.ToString()));
-
-			//check SuperUsers
-			if (!cbIncludeSuperUsers.Checked)
-			{
-				sbWhere.Append(" AND (u.IsSuperUser=0) ");
-			}
-
-			//check deleted accounts
-			if (IsDeletedExists)
-			{
-				sbSelect.Append(", u.IsDeleted");
-				if (!cbIncludeDeleted.Checked)
-				{
-					sbWhere.Append(" AND (u.IsDeleted=0) ");
-				}
-				htFieldNames["IsDeleted"] = 1;
-			}
-
-			//check authorised accounts
-			if (!cbIncludeNonAuthorised.Checked)
-			{
-				sbWhere.Append(" AND (u.Authorised=1) ");
-			}
-
-			//check if requires to export roles
-			if (cbExportRoles.Checked)
-			{
-				sbSelect.Append(@",		(SELECT	CAST(ur.RoleID AS nvarchar(10)) + ','
-		FROM	{databaseOwner}{objectQualifier}UserRoles ur
-		WHERE	(ur.UserID=u.UserID) AND (ur.RoleID IN (SELECT r.RoleID FROM {databaseOwner}{objectQualifier}Roles r WHERE (r.PortalID={0}))) 
-		FOR XML PATH('')) RoleIDs,
-		
-		(SELECT	r.RoleName + ','
-		FROM	{databaseOwner}{objectQualifier}UserRoles ur
-				LEFT JOIN {databaseOwner}{objectQualifier}Roles r ON (ur.RoleID=r.RoleID)
-		WHERE	(ur.UserID=u.UserID) AND (ur.RoleID IN (SELECT r.RoleID FROM {databaseOwner}{objectQualifier}Roles r WHERE (r.PortalID={0})))
-		FOR XML PATH('')) Roles 
-").Replace("{0}", this.PortalId.ToString());
-
-				htFieldNames["RoleIDs"] = 1;
-				htFieldNames["Roles"] = 1;
-			}
-
-			//define properties
-			foreach (ListItem li in cblPropertiesToExport.Items)
-			{
-				if ((!li.Selected) || (htFieldNames[li.Text] != null))
-				{
-					continue;
-				}
-				htFieldNames[li.Text] = 1;
-
-				sbSelect.Append(", up{0}.PropertyValue [{1}] "
-					.Replace("{0}", li.Value)
-					.Replace("{1}", li.Text)
-				);
-
-
-				sbFrom.Append(" LEFT JOIN {databaseOwner}{objectQualifier}UserProfile up{0} ON ((u.UserID=up{0}.UserID) AND (up{0}.PropertyDefinitionID={0})) "
-					.Replace("{0}", li.Value));
-			}
-
-			idr = DotNetNuke.Data.DataProvider.Instance().ExecuteSQL(sbSelect.ToString() + sbFrom.ToString() + sbWhere.ToString());
-			DataTable dt = DotNetNuke.Common.Globals.ConvertDataReaderToDataTable(idr);
-			if (cbExportPasswords.Checked)
-			{
-				dt = AddPasswordsColumn(dt);
-			}
-
-			string strResult = "";
-
-			switch (ddlExportFileType.SelectedValue)
-			{
-				case "0"://temporary disabled for Excel
-					break;
-				case "1"://XML - FOR XML RAW
-					strResult = CommonController.ToXML(dt);
-					CommonController.ResponseFile("text/xml", System.Text.Encoding.UTF8.GetBytes(strResult), string.Format("Users_{0:ddMMyyyy_HHmmss}.xml", DateTime.Now));
-					break;
-				case "2"://CSV
-					strResult = CommonController.ToCSV(dt, true, ",");
-					CommonController.ResponseFile("text/csv", System.Text.Encoding.UTF8.GetBytes(strResult), string.Format("Users_{0:ddMMyyyy_HHmmss}.csv", DateTime.Now));
-					break;
-			}
-
-		}
-
-		private DataTable AddPasswordsColumn(DataTable dt)
-		{
-			dt.Columns.Add("Password", "".GetType());
-
-			foreach (DataRow dr in dt.Rows)
-			{
-				if (DotNetNuke.Security.Membership.MembershipProviderConfig.PasswordRetrievalEnabled)
-				{
-					UserInfo objUser = UserController.GetUserById(this.PortalId, (int)dr["userid"]);
-					dr["Password"] = UserController.GetPassword(ref objUser, objUser.Membership.PasswordAnswer);
-				}
-				else
-				{
-					dr["Password"] = "";
-				}
-			}
-
-			return dt;
 		}
 
 		#endregion

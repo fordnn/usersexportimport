@@ -279,4 +279,7 @@
   <data name="MaxAllowedFileSize.Text" xml:space="preserve">
     <value>Max allowed file size for upload is {0}</value>
   </data>
+  <data name="ExportInProgress.Text" xml:space="preserve">
+    <value>Export in progress...</value>
+  </data>
 </root>

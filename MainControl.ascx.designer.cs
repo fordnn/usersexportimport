@@ -49,6 +49,15 @@ namespace forDNN.Modules.UsersExportImport {
         protected global::System.Web.UI.WebControls.DropDownList ddlExportFileType;
         
         /// <summary>
+        /// divIncludeSuperUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divIncludeSuperUsers;
+        
+        /// <summary>
         /// lblIncludeSuperUsers control.
         /// </summary>
         /// <remarks>
@@ -181,7 +190,16 @@ namespace forDNN.Modules.UsersExportImport {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnExportUsers;
+        protected global::System.Web.UI.WebControls.HyperLink btnExportUsers;
+        
+        /// <summary>
+        /// lblExportInProgress control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblExportInProgress;
         
         /// <summary>
         /// lblImport control.

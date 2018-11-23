@@ -164,11 +164,39 @@ namespace forDNN.Modules.UsersExportImport
 			objResponse.End();
 		}
 
+		public static string SaveFile(int PortalId, string ToWrite, string FileName)
+		{
+			PortalSettings objPortalSettings = new PortalSettings(PortalId);
+			string Path = objPortalSettings.HomeDirectoryMapPath + "UsersExportImport\\";
+			if (!System.IO.Directory.Exists(Path))
+			{
+				System.IO.Directory.CreateDirectory(Path);
+			}
+			//delete all files in directory for security reason
+			foreach (string tempName in System.IO.Directory.GetFiles(Path))
+			{
+				System.IO.File.Delete(tempName);
+			}
+
+			System.IO.StreamWriter sw = new System.IO.StreamWriter(Path + FileName, false, Encoding.UTF8);
+			sw.Write(ToWrite);
+			sw.Close();
+
+			return objPortalSettings.HomeDirectory + "UsersExportImport/" + FileName;
+		}
+
 		public static string GetMaxAllowedFileSize()
 		{
-			System.Configuration.Configuration config = WebConfigurationManager.OpenWebConfiguration("~");
-			HttpRuntimeSection section = config.GetSection("system.web/httpRuntime") as HttpRuntimeSection;
-			return string.Format("{0} kB", section.MaxRequestLength);
+			try
+			{
+				System.Configuration.Configuration config = WebConfigurationManager.OpenWebConfiguration("~");
+				HttpRuntimeSection section = config.GetSection("system.web/httpRuntime") as HttpRuntimeSection;
+				return string.Format("{0} kB", section.MaxRequestLength);
+			}
+			catch
+			{
+				return "undefined";
+			}
 		}
 	}
 }

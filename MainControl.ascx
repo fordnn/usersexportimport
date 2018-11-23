@@ -33,7 +33,7 @@
                     <asp:ListItem Value="2" resourcekey="ExportFileType_2" Selected></asp:ListItem>
                 </asp:DropDownList>
             </div>
-            <div class="dnnFormItem">
+            <div class="dnnFormItem" runat="server" id="divIncludeSuperUsers">
                 <dnn:Label runat="server" id="lblIncludeSuperUsers" resourcekey="IncludeSuperUsers" AssociatedControlID="cbIncludeSuperUsers"></dnn:Label>
                 <asp:CheckBox runat="server" ID="cbIncludeSuperUsers" CssClass="normalCheckBox" />
             </div>
@@ -64,8 +64,10 @@
                 <asp:CheckBoxList runat="server" ID="cblPropertiesToExport" RepeatDirection="Vertical" RepeatColumns="3" CssClass="normalCheckBox"></asp:CheckBoxList>
             </div>
         </fieldset>
-        <asp:LinkButton ID="btnExportUsers" runat="server" CssClass="dnnPrimaryAction" OnClick="btnExportUsers_Click"
-            resourcekey="ExportUsers"></asp:LinkButton>
+		<asp:HyperLink ID="btnExportUsers" runat="server" CssClass="dnnPrimaryAction" resourcekey="ExportUsers"></asp:HyperLink>
+		<div id="ExportInProgress" style="display:none;">
+			<asp:Label runat="server" ID="lblExportInProgress" resourcekey="ExportInProgress" CssClass="NormalRed"></asp:Label>
+		</div>
     </div>
     <div id="divImportUsers" class="dnnClear dnnForm">
         <fieldset>
@@ -127,8 +129,68 @@
 </div>
 
 <script type="text/javascript">
-    jQuery(function ($)
-    {
-        $('#tabs-demo').dnnTabs();
-    });
+	$(document).ready(function ()
+	{
+		$('#tabs-demo').dnnTabs();
+	});
+
+	function doExport(moduleId)
+	{
+		var objValues = new Object();
+		objValues.ExportFileType = $("#<%=ddlExportFileType.ClientID%>").val();
+		objValues.IncludeSuperUsers = $("#<%=cbIncludeSuperUsers.ClientID%>").prop("checked");
+		objValues.IncludeDeleted = $("#<%=cbIncludeDeleted.ClientID%>").prop("checked");
+		objValues.IncludeNonAuthorised = $("#<%=cbIncludeNonAuthorised.ClientID%>").prop("checked");
+		objValues.ExportRoles = $("#<%=cbExportRoles.ClientID%>").prop("checked");
+		objValues.ExportPasswords = $("#<%=cbExportPasswords.ClientID%>").prop("checked");
+		objValues.PropertiesToExport = "";
+		$("#<%=cblPropertiesToExport.ClientID%> input[type='checkbox']:checked").each(
+			function (ind, val)
+			{
+				var objVal = $(val);
+				objValues.PropertiesToExport += ((objValues.PropertiesToExport==="")?"":",") + objVal.parent().find("label").html() + "=" + objVal.val();
+			}
+		);
+
+		$("#<%=btnExportUsers.ClientID%>").toggle();
+		$("#ExportInProgress").toggle();
+
+		callWebAPI(moduleId, "DoExport", objValues, function (data)
+		{
+			$("#<%=btnExportUsers.ClientID%>").toggle();
+			$("#ExportInProgress").toggle();
+
+			if (data === "")
+			{
+				alert("Export error, please check logs");
+			}
+			else
+			{
+				document.location.href = data;
+			}
+		});
+		return false;
+	}
+
+	function callWebAPI(moduleId, methodName, values, callBack)
+	{
+		var sf = $.ServicesFramework(moduleId);
+		var serviceUrl = sf.getServiceRoot('forDNN.UsersExportImport') + "ExportImport/" + methodName;
+
+		$.ajax({
+			url: serviceUrl,
+			data: JSON.stringify(values),
+			type: "POST",
+			contentType: "application/json",
+			headers: { "RequestVerificationToken": sf.getAntiForgeryValue(), "ModuleId": sf.getModuleId(), "TabId": sf.getTabId() },
+			success: function (data, status, xhr)
+			{
+				callBack(data);
+			},
+			error: function (xhr, status, err)
+			{
+				console.error(serviceUrl, status, err.toString());
+			}
+		});
+	}
 </script>
