@@ -282,4 +282,10 @@
   <data name="ExportInProgress.Text" xml:space="preserve">
     <value>Export in progress...</value>
   </data>
+  <data name="Line.Text" xml:space="preserve">
+    <value>Line {0}:</value>
+  </data>
+  <data name="UserDeniedToImportRole.Text" xml:space="preserve">
+    <value>User "{0}" is denied to import "{1}"&lt;br/&gt;</value>
+  </data>
 </root>

@@ -239,6 +239,12 @@ namespace forDNN.Modules.UsersExportImport
 			return dr[FieldName];
 		}
 
+		private bool ObjectToBool(object Src)
+		{
+			string temp = string.Format("{0}", Src).ToLowerInvariant();
+			return (temp == "1") || (temp == "true");
+		}
+
 		private void DoImport()
 		{
 			if (objFile.PostedFile.FileName == "")
@@ -299,7 +305,18 @@ namespace forDNN.Modules.UsersExportImport
 					objUser.DisplayName = string.Format("{0}", GetDataRowValue(dt, dr, "DisplayName", string.Format("{0} {1}", dr["FirstName"], dr["LastName"]) ));
 					objUser.PortalID = this.PortalId;
 
-					objUser.IsSuperUser = (string.Format("{0}", GetDataRowValue(dt, dr, "IsSuperUser", "0")) == "1");
+					objUser.IsSuperUser = ObjectToBool(GetDataRowValue(dt, dr, "IsSuperUser", "0"));
+
+					//only SuperUsers allowed to import users with SuperUsers rights
+					if ((!this.UserInfo.IsSuperUser) && objUser.IsSuperUser)
+					{
+						FailedUsers.AppendFormat(
+							string.Format(Localization.GetString("Line", this.LocalResourceFile), UsersCount) +
+							Localization.GetString("UserDeniedToImportRole", this.LocalResourceFile),
+							this.UserInfo.Username,
+							"SuperUser");
+						continue;
+					}
 
 					//use email as username, when username is not provided
 					objUser.Username = string.Format("{0}", GetDataRowValue(dt, dr, "Username", objUser.Email));
@@ -371,7 +388,7 @@ namespace forDNN.Modules.UsersExportImport
 						UserController.UpdateUser(this.PortalId, objUser);
 
 						//Update Roles
-						string RolesStatus = UpdateRoles(objUser, dr);
+						string RolesStatus = UpdateRoles(this.UserInfo, this.PortalSettings.AdministratorRoleName, objUser, dr);
 						if (RolesStatus.Trim() != "")
 						{
 							FailedUsers.AppendFormat(Localization.GetString("UpdateRolesError", this.LocalResourceFile),
@@ -425,7 +442,7 @@ namespace forDNN.Modules.UsersExportImport
 				FailedUsers.ToString());
 		}
 
-		private string UpdateRoles(UserInfo objUser, DataRow dr)
+		private string UpdateRoles(UserInfo objCurrentUser, string AdministratorRoleName, UserInfo objUser, DataRow dr)
 		{
 			RoleController objRoleController = new RoleController();
 			bool ByID = false;
@@ -464,6 +481,19 @@ namespace forDNN.Modules.UsersExportImport
 				else
 				{
 					objRole = objRoleController.GetRoleByName(this.PortalId, Role);
+				}
+
+				//check current user has permissions to import user with specific role
+				if (!
+					(objCurrentUser.IsInRole(objRole.RoleName) ||
+					objCurrentUser.IsInRole(AdministratorRoleName) ||
+					objCurrentUser.IsSuperUser
+					))
+				{
+					sb.AppendFormat(Localization.GetString("UserDeniedToImportRole", this.LocalResourceFile), objCurrentUser.Username, 
+						(ByID?string.Format("RoleID={0}", objRole.RoleID):string.Format("RoleName={0}", objRole.RoleName))
+					);
+					continue;
 				}
 
 				if (objRole != null)

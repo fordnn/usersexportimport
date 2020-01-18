@@ -1,16 +1,16 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="forDNN.UsersExportImport" type="Module" version="1.1.7">
+    <package name="forDNN.UsersExportImport" type="Module" version="1.2.0">
       <friendlyName>forDNN.UsersExportImport</friendlyName>
       <description>This module allows to export/import users, user profiles properties and roles to DNN (former DotNetNuke) from CSV/XML files. This is simple and fast way to create your users accounts in one click.</description>
       <owner>
         <name>Sergiy Velychko</name>
         <organization>forDNN Team</organization>
         <url>&lt;a href="http://forDNN.com" target="_blank"&gt;http://forDNN.com&lt;/a&gt;</url>
-        <email>&lt;a href="mailto:support@forDNN.com" target="_blank"&gt;support@forDNN.com&lt;/a&gt;</email>
+        <email>support@forDNN.com</email>
       </owner>
       <license>
-        Copyright (c) 2014, forDNN Team&lt;br/&gt;
+        Copyright (c) 2020, forDNN Team&lt;br/&gt;
         All rights reserved.&lt;br/&gt;
         &lt;br/&gt;
         Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:&lt;br/&gt;
@@ -25,6 +25,10 @@
       </license>
       <releaseNotes>
         <![CDATA[
+<b>Version 1.2.0:</b><br />
+Added security check on roles import. It prevents from importing to system users with Admin and SuperUsers rights without necessary permissions.<br />
+Tested with recent version of DNN 9.4.4<br />
+
 <b>Version 1.1.7:</b><br />
 Fixed issue with special chars "Zero width space" and "Zero width no-break space" in the names of the columns.<br />
 Improved import process when missed some required columns: DisplayName, IsSuperUser, Username, AffiliateId.<br />
