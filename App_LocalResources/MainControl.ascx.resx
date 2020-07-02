@@ -288,4 +288,7 @@
   <data name="UserDeniedToImportRole.Text" xml:space="preserve">
     <value>User "{0}" is denied to import "{1}"&lt;br/&gt;</value>
   </data>
+  <data name="ImportRoles3.Text" xml:space="preserve">
+    <value>Import roles by RoleName from the "Roles" column (autocreate Role if it does not exist)</value>
+  </data>
 </root>
