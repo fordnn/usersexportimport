@@ -291,4 +291,8 @@
   <data name="ImportRoles3.Text" xml:space="preserve">
     <value>Import roles by RoleName from the "Roles" column (autocreate Role if it does not exist)</value>
   </data>
+<<<<<<< HEAD
 </root> 
+=======
+</root>
+>>>>>>> 7db8571baf53c8d726ec06806d36014c84b8f302
