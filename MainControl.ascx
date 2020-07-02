@@ -83,6 +83,7 @@
                 <asp:RadioButtonList runat="server" ID="rblImportRoles">
                     <asp:ListItem Value="0" resourcekey="ImportRoles0" Selected></asp:ListItem>
                     <asp:ListItem Value="1" resourcekey="ImportRoles1"></asp:ListItem>
+                    <asp:ListItem Value="3" resourcekey="ImportRoles3"></asp:ListItem>
                     <asp:ListItem Value="2" resourcekey="ImportRoles2"></asp:ListItem>
                 </asp:RadioButtonList>
             </div>
@@ -108,8 +109,7 @@
             </div>
         </fieldset>
         <div style="clear: both;">
-            <asp:LinkButton ID="btnImport" runat="server" CssClass="dnnPrimaryAction" OnClick="btnImport_Click"
-                resourcekey="ImportUsers"></asp:LinkButton>
+            <asp:LinkButton ID="btnImport" runat="server" CssClass="dnnPrimaryAction" resourcekey="ImportUsers"></asp:LinkButton>
         </div>
         <fieldset>
             <div class="dnnFormItem">
@@ -172,6 +172,49 @@
 		return false;
 	}
 
+	function doImport(moduleId)
+	{
+		var formData = new FormData();
+
+		var objItem = $("#<%=objFile.ClientID%>");
+		if (objItem[0].files.length == 0)
+		{
+			return false; //go to the next file
+		}
+		var files = objItem[0].files;
+		var newName = "";
+		for (var i = 0; i < files.length; i++)
+		{
+			newName = files[i].name;
+			formData.append(newName, files[i]);
+		}
+
+		formData.append('rblImportRoles',					$('[name="dnn$ctr' + moduleId + '$MainControl$rblImportRoles"]:checked').val());
+		formData.append('cbImportProfileProperties',		$("#<%=cbImportProfileProperties.ClientID%>").is(":checked"));
+		formData.append('cbCreateMissedProfileProperties',	$("#<%=cbCreateMissedProfileProperties.ClientID%>").is(":checked"));
+		formData.append('cbRandomPassword',					$("#<%=cbRandomPassword.ClientID%>").is(":checked"));
+		formData.append('cbForcePasswordChange',			$("#<%=cbForcePasswordChange.ClientID%>").is(":checked"));	
+		formData.append('cbEmailUser',						$("#<%=cbEmailUser.ClientID%>").is(":checked"));
+
+		var sf = $.ServicesFramework(moduleId);
+		var serviceUrl = sf.getServiceRoot('forDNN.UsersExportImport') + "ExportImport/DoImport";
+		$.ajax({
+			type: "POST",
+			url: serviceUrl,
+			data: formData,
+			contentType: false,
+			headers: { "RequestVerificationToken": sf.getAntiForgeryValue(), "ModuleId": sf.getModuleId(), "TabId": sf.getTabId() },
+			processData: false,
+			cache: false,
+			async: false,
+			success: function (data, status, xhr)
+			{
+				$("#<%=lblResult.ClientID%>").html(data);
+			}
+		});
+		return false;
+	}
+
 	function callWebAPI(moduleId, methodName, values, callBack)
 	{
 		var sf = $.ServicesFramework(moduleId);
@@ -194,3 +237,4 @@
 		});
 	}
 </script>
+ 
