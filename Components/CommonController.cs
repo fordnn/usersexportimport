@@ -13,6 +13,7 @@ using DotNetNuke.Security.Roles;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.Entities.Profile;
+using DotNetNuke.Services.Exceptions;
 
 namespace forDNN.Modules.UsersExportImport
 {
@@ -59,7 +60,7 @@ namespace forDNN.Modules.UsersExportImport
 				csvRows.AppendLine(sb.ToString());
 			}
 
-			foreach(DataRow dr in dt.Rows)
+			foreach (DataRow dr in dt.Rows)
 			{
 				sb = new StringBuilder();
 				for (int index = 0; index < ColumnsCount; index++)
@@ -178,7 +179,10 @@ namespace forDNN.Modules.UsersExportImport
 					{
 						dr[k] = lstValues[k];
 					}
-					catch { }
+					catch (Exception Exc)
+					{
+						Exceptions.LogException(Exc);
+					}
 				}
 				dt.Rows.Add(dr);
 			}
@@ -253,6 +257,8 @@ namespace forDNN.Modules.UsersExportImport
 				return Localization.GetString("ImportFileMissed", LocalResourceFile);
 			}
 
+			bool UpdateExistingUser = Convert.ToBoolean(objContext.Request.Form["cbUpdateExistingUser"]);
+
 			HttpPostedFile objFile = objContext.Request.Files[0];
 
 			System.IO.FileInfo objFileInfo = new System.IO.FileInfo(objFile.FileName);
@@ -297,6 +303,20 @@ namespace forDNN.Modules.UsersExportImport
 				try
 				{
 					DotNetNuke.Entities.Users.UserInfo objUser = new DotNetNuke.Entities.Users.UserInfo();
+					//use email as username, when username is not provided
+					objUser.Username = string.Format("{0}", GetDataRowValue(dt, dr, "Username", objUser.Email));
+
+					bool UserAlreadyExists = false;
+					if (UpdateExistingUser)
+					{
+						objUser = UserController.GetUserByName(objPortalSettings.PortalId, objUser.Username);
+						if (objUser != null)
+						{
+							UserAlreadyExists = true;
+						}
+					}
+
+
 					objUser.Profile.InitialiseProfile(objPortalSettings.PortalId, true);
 					objUser.Email = string.Format("{0}", dr["Email"]);
 					objUser.FirstName = string.Format("{0}", dr["FirstName"]);
@@ -317,9 +337,6 @@ namespace forDNN.Modules.UsersExportImport
 						continue;
 					}
 
-					//use email as username, when username is not provided
-					objUser.Username = string.Format("{0}", GetDataRowValue(dt, dr, "Username", objUser.Email));
-
 					if (dt.Columns.Contains("Password"))
 					{
 						objUser.Membership.Password = string.Format("{0}", dr["Password"]);
@@ -336,8 +353,16 @@ namespace forDNN.Modules.UsersExportImport
 					objUser.Membership.PasswordQuestion = objUser.Membership.Password;
 					objUser.Membership.UpdatePassword = Convert.ToBoolean(objContext.Request.Form["cbForcePasswordChange"]);//update password on next login
 
-					DotNetNuke.Security.Membership.UserCreateStatus objCreateStatus =
-						DotNetNuke.Entities.Users.UserController.CreateUser(ref objUser);
+					DotNetNuke.Security.Membership.UserCreateStatus objCreateStatus;
+					if (UserAlreadyExists)
+					{
+						objCreateStatus = DotNetNuke.Security.Membership.UserCreateStatus.Success;
+					}
+					else
+					{
+						objCreateStatus = UserController.CreateUser(ref objUser);
+					}
+
 					if (objCreateStatus == DotNetNuke.Security.Membership.UserCreateStatus.Success)
 					{
 						if (dt.Columns.IndexOf("UserID") != -1)
@@ -433,6 +458,7 @@ namespace forDNN.Modules.UsersExportImport
 					FailedUsers.AppendFormat(Localization.GetString("RowException", LocalResourceFile),
 						UsersCount,
 						Exc.Message);
+					Exceptions.LogException(Exc);
 				}
 			}
 			return string.Format(Localization.GetString("Result", LocalResourceFile),
@@ -469,6 +495,22 @@ namespace forDNN.Modules.UsersExportImport
 				case "2":
 					Roles = (string)dr["Roles"];
 					break;
+			}
+
+			string AdministratorRoleName = "";
+			try
+			{
+				AdministratorRoleName = 
+					(objPortalSettings.AdministratorRoleName == DotNetNuke.Common.Utilities.Null.NullString) ? "" : objPortalSettings.AdministratorRoleName;
+			}
+			catch(Exception Exc)
+			{
+				Exceptions.LogException(Exc);
+			}
+			if (AdministratorRoleName == "")
+			{
+				//for child portals its empty and we need RoleName only to check security, so can use any uniq string - always will be false
+				AdministratorRoleName = System.Guid.NewGuid().ToString();
 			}
 
 			StringBuilder sb = new StringBuilder();
@@ -509,7 +551,7 @@ namespace forDNN.Modules.UsersExportImport
 				//check current user has permissions to import user with specific role
 				if (!
 					(objCurrentUser.IsInRole(objRole.RoleName) ||
-					objCurrentUser.IsInRole(objPortalSettings.AdministratorRoleName) ||
+					objCurrentUser.IsInRole(AdministratorRoleName) ||
 					objCurrentUser.IsSuperUser
 					))
 				{
@@ -573,6 +615,7 @@ namespace forDNN.Modules.UsersExportImport
 			}
 			catch (Exception Exc)
 			{
+				Exceptions.LogException(Exc);
 				return Exc.Message;
 			}
 			return "";
@@ -643,8 +686,9 @@ namespace forDNN.Modules.UsersExportImport
 				HttpRuntimeSection section = config.GetSection("system.web/httpRuntime") as HttpRuntimeSection;
 				return string.Format("{0} kB", section.MaxRequestLength);
 			}
-			catch
+			catch (Exception Exc)
 			{
+				Exceptions.LogException(Exc);
 				return "undefined";
 			}
 		}
@@ -682,4 +726,4 @@ namespace forDNN.Modules.UsersExportImport
 		}
 
 	}
-} 
+}

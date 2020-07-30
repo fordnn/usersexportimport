@@ -1,6 +1,6 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="forDNN.UsersExportImport" type="Module" version="1.2.1">
+    <package name="forDNN.UsersExportImport" type="Module" version="1.2.3">
       <friendlyName>forDNN.UsersExportImport</friendlyName>
       <description>This module allows to export/import users, user profiles properties and roles to DNN (former DotNetNuke) from CSV/XML files. This is simple and fast way to create your users accounts in one click.</description>
       <owner>
@@ -25,6 +25,12 @@
       </license>
       <releaseNotes>
         <![CDATA[
+<b>Version 1.2.3:</b><br />
+New feature Auto Update Existing users when UserName already exists<br />
+
+<b>Version 1.2.2:</b><br />
+Fixed an issue in import process for child portals, when no default roles in system (no Admins role)<br />
+
 <b>Version 1.2.1:</b><br />
 Added auto create role on roles import.
 Tested with recent version of DNN 9.6.2<br />

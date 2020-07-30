@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("forDNN")]
 [assembly: AssemblyProduct("Users Export/Import for DNN (former DotNetNuke)")]
-[assembly: AssemblyCopyright("(c) forDNN 2003-2015")]
+[assembly: AssemblyCopyright("(c) forDNN 2003-2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: GuidAttribute("a9a2f906-2bbe-44fa-9c6d-4c3137d872a8")]
 
@@ -29,4 +29,4 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.2.1.*")]
+[assembly: AssemblyVersion("1.2.3.*")]

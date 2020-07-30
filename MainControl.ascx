@@ -88,6 +88,10 @@
                 </asp:RadioButtonList>
             </div>
             <div class="dnnFormItem">
+                <dnn:Label ID="lblUpdateExistingUser" runat="server" resourcekey="UpdateExistingUser"></dnn:Label>
+                <asp:CheckBox runat="server" ID="cbUpdateExistingUser" CssClass="normalCheckBox" />
+            </div>
+            <div class="dnnFormItem">
                 <dnn:Label ID="lblImportProfileProperties" runat="server" resourcekey="ImportProfileProperties"></dnn:Label>
                 <asp:CheckBox runat="server" ID="cbImportProfileProperties" CssClass="normalCheckBox" Checked="true" />
             </div>
@@ -194,7 +198,8 @@
 		formData.append('cbCreateMissedProfileProperties',	$("#<%=cbCreateMissedProfileProperties.ClientID%>").is(":checked"));
 		formData.append('cbRandomPassword',					$("#<%=cbRandomPassword.ClientID%>").is(":checked"));
 		formData.append('cbForcePasswordChange',			$("#<%=cbForcePasswordChange.ClientID%>").is(":checked"));	
-		formData.append('cbEmailUser',						$("#<%=cbEmailUser.ClientID%>").is(":checked"));
+		formData.append('cbEmailUser', $("#<%=cbEmailUser.ClientID%>").is(":checked"));
+		formData.append('cbUpdateExistingUser', $("#<%=cbUpdateExistingUser.ClientID%>").is(":checked"));
 
 		var sf = $.ServicesFramework(moduleId);
 		var serviceUrl = sf.getServiceRoot('forDNN.UsersExportImport') + "ExportImport/DoImport";
@@ -237,4 +242,3 @@
 		});
 	}
 </script>
- 
