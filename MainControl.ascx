@@ -88,14 +88,14 @@
                 </asp:RadioButtonList>
             </div>
             <div class="dnnFormItem">
-                <dnn:Label ID="lblUpdateExistingUser" runat="server" resourcekey="UpdateExistingUser"></dnn:Label>
-                <asp:CheckBox runat="server" ID="cbUpdateExistingUser" CssClass="normalCheckBox" />
-            </div>
-            <div class="dnnFormItem">
                 <dnn:Label ID="lblImportProfileProperties" runat="server" resourcekey="ImportProfileProperties"></dnn:Label>
                 <asp:CheckBox runat="server" ID="cbImportProfileProperties" CssClass="normalCheckBox" Checked="true" />
             </div>
-            <div class="dnnFormItem">
+            <div class="dnnFormItem ProfileProperties">
+                <dnn:Label ID="lblUpdateExistingUser" runat="server" resourcekey="UpdateExistingUser"></dnn:Label>
+                <asp:CheckBox runat="server" ID="cbUpdateExistingUser" CssClass="normalCheckBox" />
+            </div>
+            <div class="dnnFormItem ProfileProperties">
                 <dnn:Label ID="lblCreateMissedProfileProperties" runat="server" resourcekey="CreateMissedProfileProperties"></dnn:Label>
                 <asp:CheckBox runat="server" ID="cbCreateMissedProfileProperties" CssClass="normalCheckBox" />
             </div>
@@ -133,9 +133,29 @@
 </div>
 
 <script type="text/javascript">
+
+	function profilePropertiesChanged()
+	{
+		if ($("#<%=cbImportProfileProperties.ClientID%>").is(":checked"))
+		{
+			$(".ProfileProperties").show();
+		}
+		else
+		{
+			$("#<%=cbUpdateExistingUser.ClientID%>").prop("checked", false);
+			$("#<%=cbCreateMissedProfileProperties.ClientID%>").prop("checked", false);
+			$(".ProfileProperties").hide();
+		}
+	}
+
 	$(document).ready(function ()
 	{
 		$('#tabs-demo').dnnTabs();
+		profilePropertiesChanged();
+		$("#<%=cbImportProfileProperties.ClientID%>").on("click", function ()
+		{
+			profilePropertiesChanged();
+		});
 	});
 
 	function doExport(moduleId)
@@ -193,13 +213,14 @@
 			formData.append(newName, files[i]);
 		}
 
-		formData.append('rblImportRoles',					$('[name="dnn$ctr' + moduleId + '$MainControl$rblImportRoles"]:checked').val());
 		formData.append('cbImportProfileProperties',		$("#<%=cbImportProfileProperties.ClientID%>").is(":checked"));
+		formData.append('cbUpdateExistingUser', $("#<%=cbUpdateExistingUser.ClientID%>").is(":checked"));
 		formData.append('cbCreateMissedProfileProperties',	$("#<%=cbCreateMissedProfileProperties.ClientID%>").is(":checked"));
+
+		formData.append('rblImportRoles', $('[name="dnn$ctr' + moduleId + '$MainControl$rblImportRoles"]:checked').val());
 		formData.append('cbRandomPassword',					$("#<%=cbRandomPassword.ClientID%>").is(":checked"));
 		formData.append('cbForcePasswordChange',			$("#<%=cbForcePasswordChange.ClientID%>").is(":checked"));	
 		formData.append('cbEmailUser', $("#<%=cbEmailUser.ClientID%>").is(":checked"));
-		formData.append('cbUpdateExistingUser', $("#<%=cbUpdateExistingUser.ClientID%>").is(":checked"));
 
 		var sf = $.ServicesFramework(moduleId);
 		var serviceUrl = sf.getServiceRoot('forDNN.UsersExportImport') + "ExportImport/DoImport";

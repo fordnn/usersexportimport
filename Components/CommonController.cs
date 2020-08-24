@@ -95,7 +95,7 @@ namespace forDNN.Modules.UsersExportImport
 		private static string RemoveWhiteSpaces(string Source)
 		{
 			//remove Zero width space and Zero width no-break space
-			return Source.Trim(new char[] { '\uFEFF', '\u200B' });
+			return Source.Trim(new char[] { '\uFEFF', '\u200B', '\r' });
 		}
 
 		private static DataTable CSV2Table(byte[] lstBytes)
@@ -105,7 +105,8 @@ namespace forDNN.Modules.UsersExportImport
 			DataTable dt = new DataTable();
 
 			string strTable = System.Text.Encoding.UTF8.GetString(lstBytes);
-			string[] lstRows = strTable.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+			string[] lstRows = strTable.Split(new string[] { "\n" }, StringSplitOptions.None);
+			//replaced Environment.NewLine with \n, because UNIX formatting does not have \r character
 			if (lstRows.Length == 0)
 			{
 				return dt;
@@ -383,7 +384,7 @@ namespace forDNN.Modules.UsersExportImport
 						objUser.Profile.LastName = objUser.LastName;
 
 						//Profile Properties
-						if (Convert.ToBoolean(objContext.Request.Form["cbImportProfileProperties.Checked"]))
+						if (Convert.ToBoolean(objContext.Request.Form["cbImportProfileProperties"]))
 						{
 							foreach (DataColumn dc in dt.Columns)
 							{

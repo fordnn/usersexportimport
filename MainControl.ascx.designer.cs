@@ -247,24 +247,6 @@ namespace forDNN.Modules.UsersExportImport {
         protected global::System.Web.UI.WebControls.RadioButtonList rblImportRoles;
         
         /// <summary>
-        /// lblUpdateExistingUser control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UserControl lblUpdateExistingUser;
-        
-        /// <summary>
-        /// cbUpdateExistingUser control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbUpdateExistingUser;
-        
-        /// <summary>
         /// lblImportProfileProperties control.
         /// </summary>
         /// <remarks>
@@ -281,6 +263,24 @@ namespace forDNN.Modules.UsersExportImport {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbImportProfileProperties;
+        
+        /// <summary>
+        /// lblUpdateExistingUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UserControl lblUpdateExistingUser;
+        
+        /// <summary>
+        /// cbUpdateExistingUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbUpdateExistingUser;
         
         /// <summary>
         /// lblCreateMissedProfileProperties control.

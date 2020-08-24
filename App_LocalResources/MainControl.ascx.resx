@@ -294,4 +294,7 @@
   <data name="UpdateExistingUser.Text" xml:space="preserve">
     <value>Update existing user when UserName exists in DB</value>
   </data>
+  <data name="UpdateExistingUser.Help" xml:space="preserve">
+    <value>Update existing user when UserName exists in DB</value>
+  </data>
 </root>
