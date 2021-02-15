@@ -33,6 +33,11 @@
                     <asp:ListItem Value="2" resourcekey="ExportFileType_2" Selected></asp:ListItem>
                 </asp:DropDownList>
             </div>
+            <div class="dnnFormItem">
+                <dnn:Label runat="server" ID="lblbExportByRole" resourcekey="ExportByRole"></dnn:Label>
+                <asp:DropDownList runat="server" ID="ddlExportByRole" Style="width: 100px;">
+                </asp:DropDownList>
+            </div>
             <div class="dnnFormItem" runat="server" id="divIncludeSuperUsers">
                 <dnn:Label runat="server" id="lblIncludeSuperUsers" resourcekey="IncludeSuperUsers" AssociatedControlID="cbIncludeSuperUsers"></dnn:Label>
                 <asp:CheckBox runat="server" ID="cbIncludeSuperUsers" CssClass="normalCheckBox" />
@@ -162,6 +167,7 @@
 	{
 		var objValues = new Object();
 		objValues.ExportFileType = $("#<%=ddlExportFileType.ClientID%>").val();
+		objValues.ExportByRole = $("#<%=ddlExportByRole.ClientID%>").val();
 		objValues.IncludeSuperUsers = $("#<%=cbIncludeSuperUsers.ClientID%>").prop("checked");
 		objValues.IncludeDeleted = $("#<%=cbIncludeDeleted.ClientID%>").prop("checked");
 		objValues.IncludeNonAuthorised = $("#<%=cbIncludeNonAuthorised.ClientID%>").prop("checked");

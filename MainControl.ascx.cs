@@ -71,6 +71,14 @@ namespace forDNN.Modules.UsersExportImport
 				}
 			}
 
+			ddlExportByRole.Items.Clear();
+			ddlExportByRole.Items.Add(new ListItem(Localization.GetString("AllRoles", this.LocalResourceFile), "-1"));
+			RoleController objRoleController = new RoleController();
+			foreach (RoleInfo objRole in objRoleController.GetRoles(this.PortalId))
+			{
+				ddlExportByRole.Items.Add(new ListItem(objRole.RoleName, objRole.RoleID.ToString()));
+			}
+
 			btnExportUsers.Attributes.Add("onclick", string.Format("javascript:return doExport({0});", this.ModuleId));
 			btnImport.Attributes.Add("onclick", string.Format("javascript:return doImport({0});", this.ModuleId));
 		}

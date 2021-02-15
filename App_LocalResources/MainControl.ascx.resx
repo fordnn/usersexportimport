@@ -297,4 +297,10 @@
   <data name="UpdateExistingUser.Help" xml:space="preserve">
     <value>Update existing user when UserName exists in DB</value>
   </data>
+  <data name="AllRoles.Text" xml:space="preserve">
+    <value>All Roles</value>
+  </data>
+  <data name="ExportByRole.Text" xml:space="preserve">
+    <value>Export By Role</value>
+  </data>
 </root>

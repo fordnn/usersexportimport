@@ -83,7 +83,7 @@ namespace forDNN.Modules.UsersExportImport.Controller
 				//check authorised accounts
 				if (!objExportInfo.IncludeNonAuthorised)
 				{
-					sbWhere.Append(" AND (u.Authorised=1) ");
+					sbWhere.Append(" AND ((u.Authorised=1) OR (u.IsSuperUser=1)) ");
 				}
 
 				//check if requires to export roles
@@ -108,6 +108,8 @@ namespace forDNN.Modules.UsersExportImport.Controller
 				//define properties
 				foreach (string li in objExportInfo.PropertiesToExport.Split(new char[] { ',' }))
 				{
+					if (li.Trim() == "") continue;
+
 					string[] objParam = li.Split(new char[] { '=' });
 					if (htFieldNames[objParam[0]] != null)
 					{
@@ -124,6 +126,12 @@ namespace forDNN.Modules.UsersExportImport.Controller
 
 					sbFrom.Append(" LEFT JOIN {databaseOwner}{objectQualifier}UserProfile up{0} ON ((u.UserID=up{0}.UserID) AND (up{0}.PropertyDefinitionID={0})) "
 						.Replace("{0}", objParam[1]));
+				}
+
+				if (objExportInfo.ExportByRole != -1)
+				{
+					sbWhere.Append(" AND (u.UserID IN (SELECT UserID FROM {databaseOwner}{objectQualifier}UserRoles WHERE RoleID={0})) "
+						.Replace("{0}", objExportInfo.ExportByRole.ToString()));
 				}
 
 				idr = DotNetNuke.Data.DataProvider.Instance().ExecuteSQL(sbSelect.ToString() + sbFrom.ToString() + sbWhere.ToString());

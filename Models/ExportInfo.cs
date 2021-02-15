@@ -21,5 +21,6 @@ namespace forDNN.Modules.UsersExportImport.Models
 		public bool ExportRoles { get; set; }
 		public bool ExportPasswords { get; set; }
 		public string PropertiesToExport { get; set; }
+		public int ExportByRole { get; set; }
 	}
 }
