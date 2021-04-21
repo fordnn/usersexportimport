@@ -311,7 +311,12 @@ namespace forDNN.Modules.UsersExportImport
 					if (UpdateExistingUser)
 					{
 						objUser = UserController.GetUserByName(objPortalSettings.PortalId, objUser.Username);
-						if (objUser != null)
+						if (objUser == null)
+						{
+							objUser = new DotNetNuke.Entities.Users.UserInfo();
+							objUser.Username = string.Format("{0}", GetDataRowValue(dt, dr, "Username", objUser.Email));
+						}
+						else
 						{
 							UserAlreadyExists = true;
 						}

@@ -1,6 +1,6 @@
 ﻿<dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="forDNN.UsersExportImport" type="Module" version="1.2.5">
+    <package name="forDNN.UsersExportImport" type="Module" version="1.2.6">
       <friendlyName>forDNN.UsersExportImport</friendlyName>
       <description>This module allows to export/import users, user profiles properties and roles to DNN (former DotNetNuke) from CSV/XML files. This is simple and fast way to create your users accounts in one click.</description>
       <owner>
@@ -25,6 +25,9 @@
       </license>
       <releaseNotes>
         <![CDATA[
+<b>Version 1.2.6:</b><br />
+Fixed an issue with Import for existing users<br />
+
 <b>Version 1.2.5:</b><br />
 Added support for DNN 9.8.1<br />
 New feature "Export Users By Role"<br />
