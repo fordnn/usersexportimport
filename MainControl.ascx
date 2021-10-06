@@ -51,6 +51,10 @@
                 <asp:CheckBox runat="server" ID="cbIncludeNonAuthorised" CssClass="normalCheckBox" />
             </div>
             <div class="dnnFormItem">
+                <dnn:Label runat="server" id="lblExportCreatedDate" resourcekey="ExportCreatedDate" AssociatedControlID="cbExportCreatedDate"></dnn:Label>
+                <asp:CheckBox runat="server" ID="cbExportCreatedDate" CssClass="normalCheckBox" />
+            </div>
+            <div class="dnnFormItem">
                 <dnn:Label runat="server" id="lblExportRoles" resourcekey="ExportRoles" AssociatedControlID="cbExportRoles"></dnn:Label>
                 <asp:CheckBox runat="server" ID="cbExportRoles" CssClass="normalCheckBox" />
             </div>
@@ -172,7 +176,8 @@
 		objValues.IncludeDeleted = $("#<%=cbIncludeDeleted.ClientID%>").prop("checked");
 		objValues.IncludeNonAuthorised = $("#<%=cbIncludeNonAuthorised.ClientID%>").prop("checked");
 		objValues.ExportRoles = $("#<%=cbExportRoles.ClientID%>").prop("checked");
-		objValues.ExportPasswords = $("#<%=cbExportPasswords.ClientID%>").prop("checked");
+        objValues.ExportPasswords = $("#<%=cbExportPasswords.ClientID%>").prop("checked");
+        objValues.ExportCreatedDate = $("#<%=cbExportCreatedDate.ClientID%>").prop("checked");
 		objValues.PropertiesToExport = "";
 		$("#<%=cblPropertiesToExport.ClientID%> input[type='checkbox']:checked").each(
 			function (ind, val)
