@@ -74,7 +74,7 @@ namespace forDNN.Modules.UsersExportImport
 			ddlExportByRole.Items.Clear();
 			ddlExportByRole.Items.Add(new ListItem(Localization.GetString("AllRoles", this.LocalResourceFile), "-1"));
 			RoleController objRoleController = new RoleController();
-			foreach (RoleInfo objRole in objRoleController.GetRoles(this.PortalId))
+			foreach (RoleInfo objRole in objRoleController.GetPortalRoles(this.PortalId))
 			{
 				ddlExportByRole.Items.Add(new ListItem(objRole.RoleName, objRole.RoleID.ToString()));
 			}
