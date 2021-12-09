@@ -303,4 +303,10 @@
   <data name="ExportByRole.Text" xml:space="preserve">
     <value>Export By Role</value>
   </data>
+  <data name="ExportCreatedDate.Help" xml:space="preserve">
+    <value>Export the date when the user account was created</value>
+  </data>
+  <data name="ExportCreatedDate.Text" xml:space="preserve">
+    <value>Export Created Date</value>
+  </data>
 </root>

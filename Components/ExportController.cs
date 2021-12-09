@@ -134,12 +134,20 @@ namespace forDNN.Modules.UsersExportImport.Controller
 						.Replace("{0}", objExportInfo.ExportByRole.ToString()));
 				}
 
+                if (objExportInfo.ExportCreatedDate)
+                {
+					sbSelect.Append(", u.CreatedOnDate");
+					htFieldNames["CreatedOnDate"] = 1;
+				}
+
 				idr = DotNetNuke.Data.DataProvider.Instance().ExecuteSQL(sbSelect.ToString() + sbFrom.ToString() + sbWhere.ToString());
 				DataTable dt = DotNetNuke.Common.Globals.ConvertDataReaderToDataTable(idr);
 				if (objExportInfo.ExportPasswords)
 				{
 					dt = AddPasswordsColumn(PortalId, dt);
 				}
+
+
 
 				string strResult = "";
 
