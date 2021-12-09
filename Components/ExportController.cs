@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Configuration;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Entities.Portals;
+using DotNetNuke.Entities.Profile;
+using System.Collections.Generic;
 
 namespace forDNN.Modules.UsersExportImport.Controller
 {
@@ -22,6 +24,23 @@ namespace forDNN.Modules.UsersExportImport.Controller
 			try
 			{
 				IDataReader idr = null;
+
+				//get ProfileProperties with type List
+				string sqlProfilePropertiesList = @"
+SELECT	DISTINCT CAST(l.EntryID AS int) EntryID, [Value]
+FROM	{databaseOwner}{objectQualifier}ProfilePropertyDefinition ppd
+		LEFT JOIN {databaseOwner}{objectQualifier}Lists l ON (ppd.DataType=l.EntryID) AND (l.ListName='DataType')
+WHERE	ppd.PortalID=0
+		AND (l.Value in (SELECT DISTINCT ListName FROM {databaseOwner}{objectQualifier}Lists WHERE (ListName<>'DataType')))
+";
+				idr = DotNetNuke.Data.DataProvider.Instance().ExecuteSQL(sqlProfilePropertiesList);
+				List<int> lstProfilePropertiesList = new List<int>();
+				List<string> lstProfilePropertiesNames = new List<string>();
+				while (idr.Read())
+				{
+					lstProfilePropertiesList.Add(idr.GetInt32(0));
+					lstProfilePropertiesNames.Add(idr.GetString(1));
+				}
 
 				//check if IsDeleted column exists
 				bool IsDeletedExists = true;
@@ -123,9 +142,26 @@ namespace forDNN.Modules.UsersExportImport.Controller
 						.Replace("{1}", objParam[0])
 					);
 
-
 					sbFrom.Append(" LEFT JOIN {databaseOwner}{objectQualifier}UserProfile up{0} ON ((u.UserID=up{0}.UserID) AND (up{0}.PropertyDefinitionID={0})) "
 						.Replace("{0}", objParam[1]));
+
+					ProfilePropertyDefinition objProperty =
+						ProfileController.GetPropertyDefinitionByName(PortalId, objParam[0]);
+					int ListID = lstProfilePropertiesList.IndexOf(objProperty.DataType);
+					if (ListID>=0)
+					{
+						string ListName = lstProfilePropertiesNames[ListID];
+						//have to add column with "_Text" for "Lists"
+						sbSelect.Append(", l{0}.Text [{1}_Text]"
+							.Replace("{0}", objParam[1])
+							.Replace("{1}", objParam[0])
+						);
+
+						sbFrom.Append(" LEFT JOIN {databaseOwner}{objectQualifier}Lists l{0} ON (l{0}.ListName='{1}') AND (CAST(l{0}.EntryID AS nvarchar)=CAST(up{0}.PropertyValue AS nvarchar)) "
+							.Replace("{0}", objParam[1])
+							.Replace("{1}", ListName)
+						);
+					}
 				}
 
 				if (objExportInfo.ExportByRole != -1)
