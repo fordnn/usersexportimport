@@ -70,7 +70,7 @@
                 <asp:CheckBox runat="server" ID="cbPropertiesToExport" CssClass="SubHead normalCheckBox" />
             </div>
             <div id="divPropertiesToExport">
-                <asp:CheckBoxList runat="server" ID="cblPropertiesToExport" RepeatDirection="Vertical" RepeatColumns="3" CssClass="normalCheckBox"></asp:CheckBoxList>
+                <asp:CheckBoxList runat="server" ID="cblPropertiesToExport" RepeatDirection="Horizontal" RepeatColumns="3" CssClass="normalCheckBox"></asp:CheckBoxList>
             </div>
         </fieldset>
 		<asp:HyperLink ID="btnExportUsers" runat="server" CssClass="dnnPrimaryAction" resourcekey="ExportUsers"></asp:HyperLink>
