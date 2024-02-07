@@ -28,17 +28,26 @@ namespace forDNN.Modules.UsersExportImport
 	partial class MainControl : PortalModuleBase, IActionable
 	{
 
-		#region "Event Handlers"
+        #region "Event Handlers"
 
-		private void FillProperties()
-		{
-			cblPropertiesToExport.DataSource = ProfileController.GetPropertyDefinitionsByPortal(this.PortalId);
-			cblPropertiesToExport.DataTextField = "PropertyName";
-			cblPropertiesToExport.DataValueField = "PropertyDefinitionId";
-			cblPropertiesToExport.DataBind();
-		}
+        private void FillProperties()
+        {
+            ProfilePropertyDefinitionCollection lst = new ProfilePropertyDefinitionCollection();
+            foreach (ProfilePropertyDefinition ppd in ProfileController.GetPropertyDefinitionsByPortal(this.PortalId))
+            {
+                if (ppd.Deleted) continue;
+                lst.Add(ppd);
+            }
 
-		private void ExtraPageLoad()
+            cblPropertiesToExport.DataSource = lst;
+            cblPropertiesToExport.DataTextField = "PropertyName";
+            cblPropertiesToExport.DataValueField = "PropertyDefinitionId";
+            cblPropertiesToExport.DataBind();
+        }
+
+
+
+        private void ExtraPageLoad()
 		{
 			lblIcon.Visible = true;
 			lblIcon.Style["display"] = "block";

@@ -31,6 +31,7 @@ SELECT	DISTINCT CAST(l.EntryID AS int) EntryID, [Value]
 FROM	{databaseOwner}{objectQualifier}ProfilePropertyDefinition ppd
 		LEFT JOIN {databaseOwner}{objectQualifier}Lists l ON (ppd.DataType=l.EntryID) AND (l.ListName='DataType')
 WHERE	ppd.PortalID=0
+		AND ppd.Deleted=0
 		AND (l.Value in (SELECT DISTINCT ListName FROM {databaseOwner}{objectQualifier}Lists WHERE (ListName<>'DataType')))
 ";
 				idr = DotNetNuke.Data.DataProvider.Instance().ExecuteSQL(sqlProfilePropertiesList);

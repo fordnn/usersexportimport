@@ -406,11 +406,11 @@ namespace forDNN.Modules.UsersExportImport
 									objPPD.PropertyCategory = "Imported";
 									objPPD.DataType = 349;
 									DotNetNuke.Entities.Profile.ProfileController.AddPropertyDefinition(objPPD);
-									objUser.Profile.SetProfileProperty(dc.ColumnName, string.Format("{0}", dr[dc.ColumnName]));
+									objUser.Profile.SetProfileProperty(dc.ColumnName, RemoveNewLine(string.Format("{0}", dr[dc.ColumnName])));
 								}
 								else
 								{
-									objUser.Profile.SetProfileProperty(dc.ColumnName, string.Format("{0}", dr[dc.ColumnName]));
+									objUser.Profile.SetProfileProperty(dc.ColumnName, RemoveNewLine(string.Format("{0}", dr[dc.ColumnName])));
 								}
 							}
 						}
@@ -473,7 +473,12 @@ namespace forDNN.Modules.UsersExportImport
 				FailedUsers.ToString());
 		}
 
-		private static string UpdateRoles(UserInfo objCurrentUser,
+        private static string RemoveNewLine(string Source)
+        {
+            return Source.Replace("\r", "").Replace("\n", "");
+        }
+
+        private static string UpdateRoles(UserInfo objCurrentUser,
 			PortalSettings objPortalSettings,
 			UserInfo objUser,
 			DataRow dr,
