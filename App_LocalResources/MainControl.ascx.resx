@@ -204,6 +204,9 @@
   <data name="RoleNameNotFound.Text" xml:space="preserve">
     <value>RoleName={0} not found &lt;br/&gt;</value>
   </data>
+  <data name="RoleDateInvalid.Text" xml:space="preserve">
+    <value>Role={0}, invalid EffectiveDate/ExpiryDate in "{1}" (expected format yyyyMMdd) &lt;br/&gt;</value>
+  </data>
   <data name="RowException.Text" xml:space="preserve">
     <value>Line {0}. Import error "{1}"&lt;br/&gt;</value>
   </data>
@@ -250,7 +253,7 @@
     <value>Check this to import users profile properties.</value>
   </data>
   <data name="ImportRoles.Help" xml:space="preserve">
-    <value>The method how roles should be imported.</value>
+    <value>The method how roles should be imported. Each role value may optionally include an EffectiveDate and/or ExpiryDate in "RoleValue&amp;EffectiveDate&amp;ExpiryDate" format, dates as yyyyMMdd (for example "Registered Users&amp;20260101&amp;20261231"). Both dates are optional.</value>
   </data>
   <data name="ImportRoles.Text" xml:space="preserve">
     <value>Import roles</value>

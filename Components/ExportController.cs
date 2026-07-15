@@ -109,16 +109,26 @@ WHERE	ppd.PortalID=0
 				//check if requires to export roles
 				if (objExportInfo.ExportRoles)
 				{
-					sbSelect.Append(@",		(SELECT	CAST(ur.RoleID AS nvarchar(10)) + ','
+					//when EffectiveDate/ExpiryDate are set for a role, they are appended as "RoleValue&EffectiveDate&ExpiryDate" (yyyyMMdd),
+					//matching the format expected on import; REPLACE undoes the XML-entity encoding that FOR XML PATH applies to '&'
+					sbSelect.Append(@",		REPLACE(CAST((SELECT CAST(ur.RoleID AS nvarchar(10))
+			+ CASE WHEN (ur.EffectiveDate IS NOT NULL) OR (ur.ExpiryDate IS NOT NULL)
+				THEN '&' + ISNULL(CONVERT(nvarchar(8), ur.EffectiveDate, 112), '') + '&' + ISNULL(CONVERT(nvarchar(8), ur.ExpiryDate, 112), '')
+				ELSE '' END
+			+ ','
 		FROM	{databaseOwner}{objectQualifier}UserRoles ur
-		WHERE	(ur.UserID=u.UserID) AND (ur.RoleID IN (SELECT r.RoleID FROM {databaseOwner}{objectQualifier}Roles r WHERE (r.PortalID={0}))) 
-		FOR XML PATH('')) RoleIDs,
-		
-		(SELECT	r.RoleName + ','
+		WHERE	(ur.UserID=u.UserID) AND (ur.RoleID IN (SELECT r.RoleID FROM {databaseOwner}{objectQualifier}Roles r WHERE (r.PortalID={0})))
+		FOR XML PATH('')) AS nvarchar(max)), '&amp;', '&') RoleIDs,
+
+		REPLACE(CAST((SELECT r.RoleName
+			+ CASE WHEN (ur.EffectiveDate IS NOT NULL) OR (ur.ExpiryDate IS NOT NULL)
+				THEN '&' + ISNULL(CONVERT(nvarchar(8), ur.EffectiveDate, 112), '') + '&' + ISNULL(CONVERT(nvarchar(8), ur.ExpiryDate, 112), '')
+				ELSE '' END
+			+ ','
 		FROM	{databaseOwner}{objectQualifier}UserRoles ur
 				LEFT JOIN {databaseOwner}{objectQualifier}Roles r ON (ur.RoleID=r.RoleID)
 		WHERE	(ur.UserID=u.UserID) AND (ur.RoleID IN (SELECT r.RoleID FROM {databaseOwner}{objectQualifier}Roles r WHERE (r.PortalID={0})))
-		FOR XML PATH('')) Roles 
+		FOR XML PATH('')) AS nvarchar(max)), '&amp;', '&') Roles
 ").Replace("{0}", PortalId.ToString());
 
 					htFieldNames["RoleIDs"] = 1;

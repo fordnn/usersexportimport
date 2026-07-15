@@ -478,6 +478,17 @@ namespace forDNN.Modules.UsersExportImport
             return Source.Replace("\r", "").Replace("\n", "");
         }
 
+        private static bool TryParseRoleDate(string Value, out DateTime Result)
+        {
+            Result = DotNetNuke.Common.Utilities.Null.NullDate;
+            if (string.IsNullOrEmpty(Value.Trim()))
+            {
+                return true;
+            }
+            return DateTime.TryParseExact(Value.Trim(), "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.None, out Result);
+        }
+
         private static string UpdateRoles(UserInfo objCurrentUser,
 			PortalSettings objPortalSettings,
 			UserInfo objUser,
@@ -525,10 +536,23 @@ namespace forDNN.Modules.UsersExportImport
 			}
 
 			StringBuilder sb = new StringBuilder();
-			foreach (string Role in Roles.Split(new char[] { ',' }))
+			foreach (string RoleEntry in Roles.Split(new char[] { ',' }))
 			{
-				if (Role.Trim() == "")
+				if (RoleEntry.Trim() == "")
 				{
+					continue;
+				}
+
+				//optional "RoleName&EffectiveDate&ExpiryDate" format, dates in yyyyMMdd, both optional
+				string[] RoleEntryParts = RoleEntry.Split('&');
+				string Role = RoleEntryParts[0].Trim();
+
+				DateTime EffectiveDate;
+				DateTime ExpiryDate;
+				if (!TryParseRoleDate(RoleEntryParts.Length > 1 ? RoleEntryParts[1] : "", out EffectiveDate) ||
+					!TryParseRoleDate(RoleEntryParts.Length > 2 ? RoleEntryParts[2] : "", out ExpiryDate))
+				{
+					sb.AppendFormat(Localization.GetString("RoleDateInvalid", LocalResourceFile), Role, RoleEntry);
 					continue;
 				}
 
@@ -575,7 +599,7 @@ namespace forDNN.Modules.UsersExportImport
 				if (objRole != null)
 				{
 					RoleController.AddUserRole(objUser, objRole, objPortalSettings, RoleStatus.Approved,
-						DotNetNuke.Common.Utilities.Null.NullDate, DotNetNuke.Common.Utilities.Null.NullDate, false, false);
+						EffectiveDate, ExpiryDate, false, false);
 				}
 				else
 				{
