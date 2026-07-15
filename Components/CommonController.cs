@@ -538,7 +538,7 @@ namespace forDNN.Modules.UsersExportImport
 					int RoleID = -1;
 					if (Int32.TryParse(Role, out RoleID))
 					{
-						objRole = objRoleController.GetRole(RoleID, objPortalSettings.PortalId);
+						objRole = objRoleController.GetRoleById(objPortalSettings.PortalId, RoleID);
 					}
 				}
 				else
@@ -574,7 +574,8 @@ namespace forDNN.Modules.UsersExportImport
 
 				if (objRole != null)
 				{
-					objRoleController.AddUserRole(objPortalSettings.PortalId, objUser.UserID, objRole.RoleID, DotNetNuke.Common.Utilities.Null.NullDate);
+					RoleController.AddUserRole(objUser, objRole, objPortalSettings, RoleStatus.Approved,
+						DotNetNuke.Common.Utilities.Null.NullDate, DotNetNuke.Common.Utilities.Null.NullDate, false, false);
 				}
 				else
 				{
